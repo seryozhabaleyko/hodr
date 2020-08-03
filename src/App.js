@@ -1,23 +1,126 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import NoMatch from './components/NoMatch';
+import GamesPage from './components/GamesPage';
+import GamePage from './components/GamePage';
+import NewsPage from './components/NewsPage';
+import ArticlesPage from './components/ArticlesPage';
+import ReviewsPage from './components/ReviewsPage';
 
-function App() {
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+
+import { auth } from './services/firebase';
+
+function PrivateRoute({ component: Component, authenticated, ...rest }) {
     return (
-        <>
+        <Route
+            {...rest}
+            render={(props) =>
+                authenticated === true ? (
+                    <Component {...props} />
+                ) : (
+                    <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                )
+            }
+        />
+    );
+}
+
+function PublicRoute({ component: Component, authenticated, ...rest }) {
+    return (
+        <Route
+            {...rest}
+            render={(props) =>
+                authenticated === false ? <Component {...props} /> : <Redirect to="/profile" />
+            }
+        />
+    );
+}
+
+class App extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            authenticated: false,
+            loading: true,
+        };
+    }
+
+    componentDidMount() {
+        auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({
+                    authenticated: true,
+                    loading: false,
+                });
+            } else {
+                this.setState({
+                    authenticated: false,
+                    loading: false,
+                });
+            }
+        });
+    }
+
+    render() {
+        return this.state.loading === true ? (
+            <h2>Loading...</h2>
+        ) : (
             <Router>
                 <Header />
                 <main className="main">
                     <Switch>
-                        <Route path="/">Home</Route>
+                        <Route path="/" exact>
+                            <Home />
+                        </Route>
+
+                        <PrivateRoute
+                            path="/profile"
+                            authenticated={this.state.authenticated}
+                            component={Profile}
+                        />
+
+                        <PublicRoute
+                            path="/signup"
+                            authenticated={this.state.authenticated}
+                            component={Signup}
+                        />
+
+                        <PublicRoute
+                            path="/login"
+                            authenticated={this.state.authenticated}
+                            component={Login}
+                        />
+
+                        <Route path="/games" exact>
+                            <GamesPage />
+                        </Route>
+                        <Route path="/game/:slug" exact>
+                            <GamePage />
+                        </Route>
+                        <Route path="/news">
+                            <NewsPage />
+                        </Route>
+                        <Route path="/articles">
+                            <ArticlesPage />
+                        </Route>
+                        <Route path="/reviews">
+                            <ReviewsPage />
+                        </Route>
+                        <Route path="*" component={NoMatch} />
                     </Switch>
                 </main>
                 <Footer />
             </Router>
-        </>
-    );
+        );
+    }
 }
 
 export default App;
