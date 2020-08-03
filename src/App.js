@@ -14,7 +14,7 @@ import Login from './pages/Login';
 import Games from './pages/Games';
 import News from './pages/News';
 import Articles from './pages/Articles';
-import ReviewsPage from './components/ReviewsPage';
+import Reviews from './pages/Reviews';
 
 import { auth } from './services/firebase';
 
@@ -113,7 +113,7 @@ class App extends Component {
                             <Articles />
                         </Route>
                         <Route path="/reviews">
-                            <ReviewsPage />
+                            <Reviews />
                         </Route>
                         <Route path="*" component={NoMatch} />
                     </Switch>
