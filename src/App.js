@@ -5,13 +5,12 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import NoMatch from './components/NoMatch';
 
-import GamePage from './components/GamePage';
-
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Games from './pages/Games';
+import Game from './pages/Game';
 import News from './pages/News';
 import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
@@ -104,7 +103,7 @@ class App extends Component {
                             <Games />
                         </Route>
                         <Route path="/game/:slug" exact>
-                            <GamePage />
+                            <Game />
                         </Route>
                         <Route path="/news">
                             <News />
