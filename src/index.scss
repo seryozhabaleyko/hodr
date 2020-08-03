@@ -1,4 +1,4 @@
-*,
+/* *,
 *::before,
 *::after {
     box-sizing: border-box;
@@ -178,7 +178,7 @@ sup {
 
 a {
     color: #0d6efd;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 a:hover {
@@ -423,4 +423,81 @@ progress {
 
 [hidden] {
     display: none !important;
+} */
+
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+    .container,
+    .container-sm {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container,
+    .container-sm,
+    .container-md {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl,
+    .container-xxl {
+        max-width: 1320px;
+    }
+}
+
+.swiper-container {
+    margin-top: -12px;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-top: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.swiper-button-prev {
+    &.swiper-button-disabled {
+    }
+}
+
+.swiper-button-next {
+    right: 10px;
 }
