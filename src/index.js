@@ -6,7 +6,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 
+import 'swiper/swiper.scss';
 import './index.scss';
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
     <React.StrictMode>
