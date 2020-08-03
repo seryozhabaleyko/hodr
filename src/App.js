@@ -7,15 +7,14 @@ import NoMatch from './components/NoMatch';
 
 import GamePage from './components/GamePage';
 
-import ArticlesPage from './components/ArticlesPage';
-import ReviewsPage from './components/ReviewsPage';
-
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Games from './pages/Games';
 import News from './pages/News';
+import Articles from './pages/Articles';
+import ReviewsPage from './components/ReviewsPage';
 
 import { auth } from './services/firebase';
 
@@ -111,7 +110,7 @@ class App extends Component {
                             <News />
                         </Route>
                         <Route path="/articles">
-                            <ArticlesPage />
+                            <Articles />
                         </Route>
                         <Route path="/reviews">
                             <ReviewsPage />
