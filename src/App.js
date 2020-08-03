@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import Header from './components/Header';
 import Footer from './components/Footer';
 import NoMatch from './components/NoMatch';
-import GamesPage from './components/GamesPage';
+
 import GamePage from './components/GamePage';
 import NewsPage from './components/NewsPage';
 import ArticlesPage from './components/ArticlesPage';
@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Games from './pages/Games';
 
 import { auth } from './services/firebase';
 
@@ -100,7 +101,7 @@ class App extends Component {
                         />
 
                         <Route path="/games" exact>
-                            <GamesPage />
+                            <Games />
                         </Route>
                         <Route path="/game/:slug" exact>
                             <GamePage />
