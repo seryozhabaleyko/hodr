@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import { auth } from './services/firebase';
+
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -14,34 +19,6 @@ import Game from './pages/Game';
 import News from './pages/News';
 import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
-
-import { auth } from './services/firebase';
-
-function PrivateRoute({ component: Component, authenticated, ...rest }) {
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                authenticated === true ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-                )
-            }
-        />
-    );
-}
-
-function PublicRoute({ component: Component, authenticated, ...rest }) {
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                authenticated === false ? <Component {...props} /> : <Redirect to="/profile" />
-            }
-        />
-    );
-}
 
 class App extends Component {
     constructor() {
