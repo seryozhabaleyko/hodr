@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Avatar, Badge } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
@@ -21,4 +21,4 @@ function UserAccount() {
     );
 }
 
-export default memo(UserAccount);
+export default UserAccount;
