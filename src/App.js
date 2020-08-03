@@ -15,10 +15,12 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Games from './pages/Games';
+import GamesPopular from './pages/GamesPopular';
 import Game from './pages/Game';
 import News from './pages/News';
 import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
+import Admin from './pages/Admin';
 
 class App extends Component {
     constructor() {
@@ -64,6 +66,12 @@ class App extends Component {
                             component={Profile}
                         />
 
+                        <PrivateRoute
+                            path="/admin"
+                            authenticated={this.state.authenticated}
+                            component={Admin}
+                        />
+
                         <PublicRoute
                             path="/signup"
                             authenticated={this.state.authenticated}
@@ -79,6 +87,10 @@ class App extends Component {
                         <Route path="/games" exact>
                             <Games />
                         </Route>
+                        <Route path="/games/popular">
+                            <GamesPopular />
+                        </Route>
+
                         <Route path="/game/:slug" exact>
                             <Game />
                         </Route>
