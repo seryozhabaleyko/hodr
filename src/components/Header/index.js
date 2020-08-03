@@ -1,9 +1,3 @@
-import React from 'react';
-
-import './header.scss';
-
-function Header() {
-    return <header className="header">header</header>;
-}
+import Header from './Header';
 
 export default Header;
