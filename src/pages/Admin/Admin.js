@@ -40,7 +40,7 @@ function Admin() {
             photoUrl,
             summary,
             body,
-            date: Date.now(),
+            timestamp: Date.now(),
         });
 
         setTitle('');
