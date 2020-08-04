@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import GameCard from '../../components/GameCard';
+import { fetchGames } from './actions';
 
 import './Games.scss';
-
 import 'swiper/components/pagination/pagination.scss';
 
 SwiperCore.use([Pagination, A11y]);
@@ -27,7 +28,11 @@ const genresList = [
     'Пазлы',
 ];
 
-function Games() {
+function Games({ fetchGames }) {
+    useEffect(() => {
+        fetchGames();
+    }, [fetchGames]);
+
     return (
         <div className="container">
             <section className="games-page__new gp-new">
@@ -43,16 +48,10 @@ function Games() {
                     ))}
                 </div> */}
 
-                <Swiper
-                    spaceBetween={30}
-                    slidesPerView={6}
-                    pagination={{ clickable: true }}
-                    onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
-                >
+                <Swiper spaceBetween={30} slidesPerView={6} pagination={{ clickable: true }}>
                     {[...Array(10)].map((el, index) => (
-                        <SwiperSlide>
-                            <GameCard key={index} />
+                        <SwiperSlide key={index}>
+                            <GameCard />
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -72,12 +71,7 @@ function Games() {
                         </article>
                     ))}
                 </div> */}
-                <Swiper
-                    spaceBetween={30}
-                    slidesPerView={6}
-                    onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
-                >
+                <Swiper spaceBetween={30} slidesPerView={6}>
                     {genresList.map((genre, genreIndex) => (
                         <SwiperSlide key={genreIndex}>
                             <article className="gp-genres__genre gp-genre">
@@ -103,15 +97,10 @@ function Games() {
                         <GameCard key={index} />
                     ))}
                 </div> */}
-                <Swiper
-                    spaceBetween={30}
-                    slidesPerView={6}
-                    onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
-                >
+                <Swiper spaceBetween={30} slidesPerView={6}>
                     {[...Array(10)].map((el, index) => (
-                        <SwiperSlide>
-                            <GameCard key={index} />
+                        <SwiperSlide key={index}>
+                            <GameCard />
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -120,4 +109,8 @@ function Games() {
     );
 }
 
-export default Games;
+const mapDispatchToProps = {
+    fetchGames,
+};
+
+export default connect(null, mapDispatchToProps)(Games);
