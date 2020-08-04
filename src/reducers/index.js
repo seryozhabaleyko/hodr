@@ -1,3 +1,5 @@
 import { combineReducers } from 'redux';
 
-export default combineReducers({});
+import { reducer as games } from '../pages/Games';
+
+export default combineReducers({ games });
