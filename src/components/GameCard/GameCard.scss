@@ -4,21 +4,35 @@
     &__thumbnail {
         min-height: 240px;
         margin: 0;
+        border-radius: 4px;
 
-        -webkit-transform: scale(1, 1) translateZ(0);
         transform: scale(1, 1) translateZ(0);
-        -webkit-transition: -webkit-transform 400ms;
-        -o-transition: -o-transform 400ms;
         transition: transform 400ms;
         transition: transform 400ms, -webkit-transform 400ms, -o-transform 400ms;
-        -webkit-transform-origin: 50% 100%;
-        -o-transform-origin: 50% 100%;
         transform-origin: 50% 100%;
 
+        display: block;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 40px 40px;
+        border-radius: 4px;
+        z-index: 1;
+        text-decoration: none;
+        position: relative;
+        height: 0;
+        width: 100%;
+        padding-bottom: 150%;
+
         > img {
-            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 100%;
-            object-fit: contain;
+            width: 100%;
+            border-radius: inherit;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 1;
         }
     }
 
