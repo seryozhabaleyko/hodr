@@ -1,28 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
-import GameCard from '../../components/GameCard';
+import GameCard, { GameCardSkeleton } from '../../components/GameCard';
 
 import './GamesPopular.scss';
 
 function GamesPopular() {
-    const [gamesList, setGamesList] = useState({});
-
     useEffect(() => {
         document.title = 'Популярные игры - Hodr - компьютерные игры';
     });
-
-    useEffect(() => {
-        db.ref('games')
-            .once('value')
-            .then((snapshot) => {
-                setGamesList(snapshot.val());
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
-    console.log('gamesList', gamesList);
 
     return (
         <div className="container">
@@ -33,11 +18,60 @@ function GamesPopular() {
 
             <div className="games-page-popular__filters">filters</div>
 
+            <GamesPopularList />
+        </div>
+    );
+}
+
+function GamesPopularList() {
+    const [loading, setLoading] = useState(false);
+    const [gamesList, setGamesList] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        setLoading(true);
+        try {
+            db.ref('games')
+                .once('value')
+                .then((snapshot) => {
+                    setGamesList(Object.values(snapshot.val()));
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setError(error);
+                    setLoading(false);
+                });
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+        }
+    }, []);
+
+    console.log(gamesList);
+
+    /* console.log(loading);
+    console.log(!Object.values(gamesList).length);
+    console.log(!error); */
+    // || (!Object.values(gamesList).length && !error)
+    if (loading) {
+        return (
             <div className="games-page-popular__list games-page-popular__grid">
-                {[...Object.values(gamesList), ...Array(42)].map((game, elIndex) => (
-                    <GameCard {...game} key={elIndex} />
+                {[...Array(42)].map((el, elIndex) => (
+                    <GameCardSkeleton key={elIndex} />
                 ))}
             </div>
+        );
+    }
+
+    if (error) {
+        return <p>{error.message}</p>;
+    }
+
+    return (
+        <div className="games-page-popular__list games-page-popular__grid">
+            {[...gamesList, ...Array(41)].map((game, elIndex) => (
+                <GameCard {...game} key={elIndex} />
+            ))}
         </div>
     );
 }
