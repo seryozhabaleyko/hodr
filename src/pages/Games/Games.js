@@ -13,10 +13,14 @@ import Genres from './components/Genres/Genres';
 
 SwiperCore.use([Pagination, A11y]);
 
-function Games({ fetchGames }) {
+function Games({ fetchGames, games }) {
     useEffect(() => {
         fetchGames();
     }, [fetchGames]);
+
+    const { data = [] } = games;
+
+    console.log('data', data);
 
     return (
         <div className="container">
@@ -34,9 +38,9 @@ function Games({ fetchGames }) {
                 </div> */}
 
                 <Swiper spaceBetween={30} slidesPerView={6} pagination={{ clickable: true }}>
-                    {[...Array(10)].map((el, index) => (
+                    {[...data, ...Array(10)].map((game, index) => (
                         <SwiperSlide key={index}>
-                            <GameCard />
+                            <GameCard {...game} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -68,8 +72,16 @@ function Games({ fetchGames }) {
     );
 }
 
+const mapStateToProps = (state) => ({
+    games: {
+        loading: state.games.loading,
+        data: state.games.data,
+        error: state.games.error,
+    },
+});
+
 const mapDispatchToProps = {
     fetchGames,
 };
 
-export default connect(null, mapDispatchToProps)(Games);
+export default connect(mapStateToProps, mapDispatchToProps)(Games);
