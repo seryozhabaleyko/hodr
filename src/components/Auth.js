@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
+import { Pane, Spinner } from 'evergreen-ui';
 
 import { auth } from '../services/firebase';
 
@@ -16,7 +17,11 @@ function AuthProvider({ children }) {
     }, []);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <Pane display="flex" alignItems="center" justifyContent="center" height="100vh">
+                <Spinner />
+            </Pane>
+        );
     }
 
     return <AuthContext.Provider value={{ currentUser }}>{children}</AuthContext.Provider>;
