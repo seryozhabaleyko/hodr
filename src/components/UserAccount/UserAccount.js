@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { Avatar } from 'evergreen-ui';
 
-import { auth } from '../../services/firebase';
+import { AuthContext } from '../Auth';
 
 import './UserAccount.scss';
 
-/* <Badge count={0}>
-            <Avatar
-                src={auth().currentUser.photoURL}
-                size={32}
-                icon={<UserOutlined />}
-                alt={auth().currentUser.displayName}
-            />
-        </Badge> */
-
 function UserAccount() {
-    return auth().currentUser ? 1 : 2;
+    const { currentUser } = useContext(AuthContext);
+
+    return currentUser ? (
+        <Link to="/profile">
+            <Avatar src={currentUser.photoURL} size={35} />
+        </Link>
+    ) : (
+        <Link to="/login">
+            <Avatar isSolid name="Anonymous User" size={35} />
+        </Link>
+    );
 }
 
 export default UserAccount;
