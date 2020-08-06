@@ -12,7 +12,7 @@ const initialState = {
     data: [],
     error: null,
     genres: {
-        loading: false,
+        loading: true,
         data: {},
         error: null,
     },
@@ -20,15 +20,15 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
-        case FETCH_GAMES_REQUEST:
-            return { ...state, loading: true, error: null };
+        /* case FETCH_GAMES_REQUEST:
+            return { ...state, loading: true, error: null }; */
         case FETCH_GAMES_SUCCESS:
             return { ...state, loading: false, data: payload };
         case FETCH_GAMES_FAILURE:
             return { ...state, loading: false, error: payload };
 
-        case FETCH_GENRES_REQUEST:
-            return { ...state, genres: { loading: true, error: null } };
+        /* case FETCH_GENRES_REQUEST:
+            return { ...state, genres: { loading: true, error: null } }; */
         case FETCH_GENRES_SUCCESS:
             return { ...state, genres: { loading: false, data: payload } };
         case FETCH_GENRES_FAILURE:
