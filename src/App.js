@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { auth } from './services/firebase';
-
+import AuthProvider from './components/Auth';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 
@@ -12,7 +11,7 @@ import NoMatch from './components/NoMatch';
 
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Signup from './pages/Signup';
+import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Games from './pages/Games';
 import GamesPopular from './pages/GamesPopular';
@@ -22,36 +21,9 @@ import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
 import Admin from './pages/Admin';
 
-class App extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            authenticated: false,
-            loading: true,
-        };
-    }
-
-    componentDidMount() {
-        auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({
-                    authenticated: true,
-                    loading: false,
-                });
-            } else {
-                this.setState({
-                    authenticated: false,
-                    loading: false,
-                });
-            }
-        });
-    }
-
-    render() {
-        return this.state.loading === true ? (
-            <h2>Loading...</h2>
-        ) : (
+function App() {
+    return (
+        <AuthProvider>
             <Router>
                 <Header />
                 <main className="main">
@@ -60,36 +32,15 @@ class App extends Component {
                             <Home />
                         </Route>
 
-                        <PrivateRoute
-                            path="/profile"
-                            authenticated={this.state.authenticated}
-                            component={Profile}
-                        />
+                        <PrivateRoute path="/profile" component={Profile} />
 
-                        <PrivateRoute
-                            path="/admin"
-                            authenticated={this.state.authenticated}
-                            component={Admin}
-                        />
+                        <PrivateRoute path="/admin" component={Admin} />
 
-                        <PublicRoute
-                            path="/signup"
-                            authenticated={this.state.authenticated}
-                            component={Signup}
-                        />
+                        <PublicRoute path="/signup" component={SignUp} />
+                        <PublicRoute path="/login" component={Login} />
 
-                        <PublicRoute
-                            path="/login"
-                            authenticated={this.state.authenticated}
-                            component={Login}
-                        />
-
-                        <Route path="/games" exact>
-                            <Games />
-                        </Route>
-                        <Route path="/games/popular">
-                            <GamesPopular />
-                        </Route>
+                        <Route path="/games" component={Games} exact />
+                        <Route path="/games/popular" component={GamesPopular} />
 
                         <Route path="/game/:slug" component={Game} exact />
 
@@ -107,8 +58,8 @@ class App extends Component {
                 </main>
                 <Footer />
             </Router>
-        );
-    }
+        </AuthProvider>
+    );
 }
 
 export default App;
