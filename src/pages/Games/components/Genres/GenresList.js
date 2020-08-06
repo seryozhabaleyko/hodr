@@ -29,7 +29,7 @@ function GenresList({ fetchGenres, genres }) {
     }
 
     return (
-        <Swiper spaceBetween={30} slidesPerView={6}>
+        <Swiper spaceBetween={30} slidesPerView={7}>
             {data.map((genre) => (
                 <SwiperSlide key={genre.id}>
                     <Genre {...genre} />
