@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Logo from '../Logo';
 
@@ -34,10 +34,6 @@ function Navbar() {
                         </nav>
                     </div>
                     <div className="navbar__right">
-                        <nav>
-                            <Link to="/login">Login</Link>
-                            <Link to="/signup">Register</Link>
-                        </nav>
                         <UserAccount />
                     </div>
                 </div>
