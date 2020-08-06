@@ -1,12 +1,27 @@
-import { db, firestore } from '../services/firebase';
+import { firestore } from '../services/firebase';
+
+export function addNewGameApi(data) {
+    return firestore
+        .collection('games')
+        .add(data)
+        .then((docRef) => {
+            docRef.update({ id: docRef.id });
+        });
+}
 
 export function fetchGamesApi() {
-    return db
-        .ref('games')
-        .once('value')
-        .then((snapshot) => {
-            return snapshot.val();
-        });
+    return firestore
+        .collection('games')
+        .get()
+        .then((querySnapshot) => querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+}
+
+export function fetchGameApi(slug) {
+    return firestore
+        .collection('games')
+        .where('slug', '==', slug)
+        .get()
+        .then((doc) => ({ ...doc.docs[0].data(), id: doc.docs[0].id }));
 }
 
 export function fetchGenresApi() {
@@ -26,13 +41,4 @@ export function addNewGenreApi(data) {
             return docRef.get();
         });
     //.then((doc) => ({ ...doc.data(), id: doc.id }));
-}
-
-export function postGenreApi() {
-    return db
-        .ref('genres/games')
-        .once('value')
-        .then((snapshot) => {
-            return snapshot.val();
-        });
 }
