@@ -1,5 +1,12 @@
-import { FETCH_GAMES_REQUEST, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAILURE } from './actionTypes';
-import { fetchGamesApi } from '../../helpers/games';
+import {
+    FETCH_GAMES_REQUEST,
+    FETCH_GAMES_SUCCESS,
+    FETCH_GAMES_FAILURE,
+    FETCH_GENRES_REQUEST,
+    FETCH_GENRES_SUCCESS,
+    FETCH_GENRES_FAILURE,
+} from './actionTypes';
+import { fetchGamesApi, fetchGenresApi } from '../../helpers/games';
 
 const fetchGamesRequest = () => ({
     type: FETCH_GAMES_REQUEST,
@@ -20,10 +27,33 @@ export const fetchGames = () => async (dispatch) => {
 
     try {
         const response = await fetchGamesApi();
-        console.log('response', response);
         dispatch(fetchGamesSuccess(response));
     } catch (error) {
-        console.log('error', error);
-        dispatch(fetchGamesFailure());
+        dispatch(fetchGamesFailure(error));
+    }
+};
+
+const fetchGenresRequest = () => ({
+    type: FETCH_GENRES_REQUEST,
+});
+
+const fetchGenresSuccess = (genres) => ({
+    type: FETCH_GENRES_SUCCESS,
+    payload: genres,
+});
+
+const fetchGenresFailure = (error) => ({
+    type: FETCH_GENRES_FAILURE,
+    payload: error,
+});
+
+export const fetchGenres = () => async (dispatch) => {
+    dispatch(fetchGenresRequest());
+
+    try {
+        const genres = await fetchGenresApi();
+        dispatch(fetchGenresSuccess(genres));
+    } catch (error) {
+        dispatch(fetchGenresFailure(error));
     }
 };
