@@ -1,10 +1,3 @@
-import React from 'react';
+import Footer from './Footer';
 
-import './footer.scss';
-import { memo } from 'react';
-
-function Footer() {
-    return <footer className="footer">footer</footer>;
-}
-
-export default memo(Footer);
+export default Footer;
