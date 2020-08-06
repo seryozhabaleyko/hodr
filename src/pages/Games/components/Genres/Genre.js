@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Genre({ title, slug }) {
     return (
-        <Link to={`/games/${slug}`}>
+        <Link to={`/games/${slug}/popular`}>
             <article className="gp-genres__genre gp-genre">
                 <span role="img" aria-label="Panda">
                     🐼
