@@ -51,8 +51,8 @@ export const fetchGenres = () => async (dispatch) => {
     dispatch(fetchGenresRequest());
 
     try {
-        const genres = await fetchGenresApi();
-        dispatch(fetchGenresSuccess(genres));
+        const response = await fetchGenresApi();
+        dispatch(fetchGenresSuccess(response));
     } catch (error) {
         dispatch(fetchGenresFailure(error));
     }
