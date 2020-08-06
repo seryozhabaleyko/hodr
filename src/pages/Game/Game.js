@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+
+import { fetchGame } from './actions';
 
 import './Game.scss';
 
@@ -15,7 +18,15 @@ const tabsList = [
 
 const videosList = [...Array(5)];
 
-function Game() {
+function Game({ fetchGame, match, game }) {
+    const { slug } = match.params;
+
+    useEffect(() => {
+        fetchGame(slug);
+    }, [fetchGame, slug]);
+
+    const { loading, data, error } = game;
+
     return (
         <article className="game-page">
             <section className="game-page__banner gp-banner">
@@ -29,7 +40,7 @@ function Game() {
             <section className="game-page__game">
                 <div className="container">
                     <header className="game-page__heading">
-                        <h1 className="game-page__title">The Elder Scrolls 5: Skyrim</h1>
+                        <h1 className="game-page__title">{data.title}</h1>
                         <button className="game-page__subscribers" type="button">
                             Отслеживать
                         </button>
@@ -38,8 +49,8 @@ function Game() {
                     <div className="tabs">
                         <ul className="tabs__nav">
                             {tabsList.map(({ label, to }) => (
-                                <li className="tabs__tab">
-                                    <NavLink className="tabs__tab-link" to={to} key={label}>
+                                <li className="tabs__tab" key={label}>
+                                    <NavLink className="tabs__tab-link" to={to}>
                                         {label}
                                     </NavLink>
                                 </li>
@@ -105,7 +116,7 @@ function Game() {
                 <section className="game-page__news gp-news">
                     <header className="gp-news__heading">
                         <h2 className="gp-news__title">Новости</h2>
-                        <Link className="gp-news__next-link" href="#">
+                        <Link className="gp-news__next-link" to="#">
                             Все новости
                             <span>о The Elder Scrolls 5: Skyrim</span>
                         </Link>
@@ -137,4 +148,12 @@ function Game() {
     );
 }
 
-export default Game;
+const mapStateToProps = (state) => ({
+    game: state.game,
+});
+
+const mapDispatchToProps = {
+    fetchGame,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
