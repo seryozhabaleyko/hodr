@@ -91,9 +91,8 @@ class App extends Component {
                             <GamesPopular />
                         </Route>
 
-                        <Route path="/game/:slug" exact>
-                            <Game />
-                        </Route>
+                        <Route path="/game/:slug" component={Game} exact />
+
                         <Route path="/news">
                             <News />
                         </Route>
