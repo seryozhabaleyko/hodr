@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from './Auth';
 
-function PublicRoute({ component: Component, authenticated, ...rest }) {
+function PublicRoute({ component: Component, ...rest }) {
+    const { currentUser } = useContext(AuthContext);
+
     return (
         <Route
             {...rest}
             render={(props) =>
-                authenticated === false ? <Component {...props} /> : <Redirect to="/profile" />
+                !!currentUser === false ? <Component {...props} /> : <Redirect to="/profile" />
             }
         />
     );
