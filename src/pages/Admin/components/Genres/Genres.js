@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import slugify from 'slugify';
 
-import { db, firestore } from '../../../../services/firebase';
+import { db } from '../../../../services/firebase';
+
+import { addNewGenreApi } from '../../../../helpers/games';
 
 import './Genres.scss';
 
@@ -34,7 +36,7 @@ function Genres() {
 
         setLoading(true);
         db.ref(`genres/games/${id}`)
-            .set({ id, title, slug })
+            .set({ title, slug })
             .then(() => {
                 db.ref('genres/games')
                     .once('value')
@@ -46,16 +48,7 @@ function Genres() {
         setGenre('');
         setSlug('');
 
-        firestore
-            .collection('genres')
-            .add({ id, title, slug })
-            .then(function (docRef) {
-                console.log('docRef', docRef);
-                console.log('Document written with ID: ', docRef.id);
-            })
-            .catch(function (error) {
-                console.error('Error adding document: ', error);
-            });
+        addNewGenreApi({ title, slug });
     };
 
     return (
@@ -65,8 +58,8 @@ function Genres() {
             </header>
 
             <div className="admin-genres__list admin-genres__grid">
-                {genres.map((genre) => (
-                    <div key={genre.id}>{genre.title}</div>
+                {genres.map((genre, index) => (
+                    <div key={index}>{genre.title}</div>
                 ))}
             </div>
 
