@@ -5,11 +5,12 @@ import './GameCard.scss';
 
 function GameCard({
     title = 'Grand Theft Auto 5',
+    slug,
     photoUrl = 'https://thumbs.dfs.ivi.ru/storage33/contents/d/1/a1fb63b65c640020a8f00d2a31afb6.jpg/234x360/',
 }) {
     return (
         <article className="game-card">
-            <Link to="/game/slug">
+            <Link to={`/game/${slug}`}>
                 <figure className="game-card__thumbnail">
                     <img src={photoUrl} alt="The Elder Scrolls 5: Skyrim" />
                 </figure>
