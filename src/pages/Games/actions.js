@@ -23,7 +23,7 @@ const fetchGamesFailure = (error) => ({
 });
 
 export const fetchGames = () => async (dispatch) => {
-    dispatch(fetchGamesRequest());
+    //dispatch(fetchGamesRequest());
 
     try {
         const response = await fetchGamesApi();
@@ -48,7 +48,7 @@ const fetchGenresFailure = (error) => ({
 });
 
 export const fetchGenres = () => async (dispatch) => {
-    dispatch(fetchGenresRequest());
+    // dispatch(fetchGenresRequest());
 
     try {
         const response = await fetchGenresApi();
