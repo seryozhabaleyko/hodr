@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SwiperCore, { Pagination, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import GameCard from '../../components/GameCard';
@@ -10,8 +9,6 @@ import { fetchGames } from './actions';
 import './Games.scss';
 import 'swiper/components/pagination/pagination.scss';
 import Genres from './components/Genres/Genres';
-
-SwiperCore.use([Pagination, A11y]);
 
 function Games({ fetchGames, games }) {
     useEffect(() => {
@@ -37,7 +34,7 @@ function Games({ fetchGames, games }) {
                     ))}
                 </div> */}
 
-                <Swiper spaceBetween={30} slidesPerView={6} pagination={{ clickable: true }}>
+                <Swiper spaceBetween={30} slidesPerView={7} pagination={{ clickable: true }}>
                     {[...data, ...Array(10)].map((game, index) => (
                         <SwiperSlide key={index}>
                             <GameCard {...game} />
