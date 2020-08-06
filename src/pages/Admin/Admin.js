@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { auth, db } from '../../services/firebase';
-import { v4 as uuid } from 'uuid';
+import slugify from 'slugify';
+import { auth } from '../../services/firebase';
+
+import { addNewGameApi } from '../../helpers/games';
 
 import './Admin.scss';
 import Genres from './components/Genres/Genres';
@@ -28,21 +30,21 @@ function Admin() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const id = uuid();
-
-        db.ref(`games/${id}`).set({
-            id,
+        const newGame = {
             author: {
                 id: auth().currentUser.uid,
                 username: auth().currentUser.displayName,
                 photoURL: auth().currentUser.photoURL,
             },
             title,
+            slug: slugify(title, { lower: true }),
             photoUrl,
             summary,
             body,
             timestamp: Date.now(),
-        });
+        };
+
+        addNewGameApi(newGame);
 
         setTitle('');
         setPhotoUrl('');
