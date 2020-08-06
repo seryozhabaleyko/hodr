@@ -3,6 +3,7 @@ import { auth, db } from '../../services/firebase';
 import { v4 as uuid } from 'uuid';
 
 import './Admin.scss';
+import Genres from './components/Genres/Genres';
 
 function Admin() {
     const [title, setTitle] = useState('');
@@ -124,6 +125,8 @@ function Admin() {
                     <button type="submit">Добавить</button>
                 </div>
             </form>
+
+            <Genres />
         </div>
     );
 }
