@@ -8,8 +8,8 @@ import {
 } from './actionTypes';
 
 const initialState = {
-    loading: false,
-    data: {},
+    loading: true,
+    data: [],
     error: null,
     genres: {
         loading: false,
