@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { reducer as games } from '../pages/Games';
+import games from '../pages/Games/reducer';
 import game from '../pages/Game/reducer';
+import news from '../pages/News/reducer';
+import articles from '../pages/Articles/reducer';
+import reviews from '../pages/Reviews/reducer';
 
-export default combineReducers({ games, game });
+export default combineReducers({ games, game, news, articles, reviews });
