@@ -1,0 +1,14 @@
+.news-card-skeleton {
+    --background-color: #ddd;
+
+    &__image {
+        height: 150px;
+        background-color: var(--background-color);
+    }
+
+    &__title {
+        margin-top: 10px;
+        height: 20px;
+        background-color: var(--background-color);
+    }
+}
