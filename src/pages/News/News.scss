@@ -1,3 +1,24 @@
 .news-page {
     position: relative;
+
+    &__heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 30px 0;
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__list {
+        margin-bottom: 30px;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+    }
 }
