@@ -3,7 +3,8 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 import { fetchNews } from './actions';
 import { getNews } from './selectors';
-import NewsCard, { NewsCardSkeleton } from './components/NewsCard';
+import { NewsCardSkeleton } from './components/NewsCard';
+import NewsCard from '../../components/NewsCard';
 import Select from '../../components/Select';
 
 import './News.scss';
