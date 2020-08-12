@@ -1,0 +1,13 @@
+.game-screenshots {
+    position: relative;
+
+    &__list {
+        margin: 30px 0;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+    }
+}
