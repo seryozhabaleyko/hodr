@@ -1,16 +1,10 @@
 import {
-    FETCH_GAMES_REQUEST,
     FETCH_GAMES_SUCCESS,
     FETCH_GAMES_FAILURE,
-    FETCH_GENRES_REQUEST,
     FETCH_GENRES_SUCCESS,
     FETCH_GENRES_FAILURE,
 } from './actionTypes';
 import { fetchGamesApi, fetchGenresApi } from '../../helpers/games';
-
-const fetchGamesRequest = () => ({
-    type: FETCH_GAMES_REQUEST,
-});
 
 const fetchGamesSuccess = (games) => ({
     type: FETCH_GAMES_SUCCESS,
@@ -23,8 +17,6 @@ const fetchGamesFailure = (error) => ({
 });
 
 export const fetchGames = () => async (dispatch) => {
-    //dispatch(fetchGamesRequest());
-
     try {
         const response = await fetchGamesApi();
         dispatch(fetchGamesSuccess(response));
@@ -32,10 +24,6 @@ export const fetchGames = () => async (dispatch) => {
         dispatch(fetchGamesFailure(error));
     }
 };
-
-const fetchGenresRequest = () => ({
-    type: FETCH_GENRES_REQUEST,
-});
 
 const fetchGenresSuccess = (genres) => ({
     type: FETCH_GENRES_SUCCESS,
@@ -48,8 +36,6 @@ const fetchGenresFailure = (error) => ({
 });
 
 export const fetchGenres = () => async (dispatch) => {
-    // dispatch(fetchGenresRequest());
-
     try {
         const response = await fetchGenresApi();
         dispatch(fetchGenresSuccess(response));
