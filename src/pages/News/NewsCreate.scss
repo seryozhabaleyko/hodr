@@ -1,0 +1,17 @@
+.np-create {
+    position: relative;
+
+    &__heading {
+        margin: 30px 0;
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__create-new-news {
+        > div {
+            margin-top: 20px;
+        }
+    }
+}
