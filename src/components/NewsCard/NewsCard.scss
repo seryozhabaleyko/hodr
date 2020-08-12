@@ -1,7 +1,19 @@
 .news-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-    background-color: #ddd;
+    &__image {
+        min-height: 200px;
+        background-color: #ddd;
+    }
+
+    &__content {
+        margin-top: 10px;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    &__date-time {
+        margin: 5px 0 0 0;
+    }
 }
