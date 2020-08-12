@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-import { Textarea, TagInput, Button, TextInputField } from 'evergreen-ui';
+import React, { useState, useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import slugify from 'slugify';
+import { Textarea, TagInput, Button, TextInputField } from 'evergreen-ui';
+
+import { cerateNews } from './actions';
+import { AuthContext } from '../../components/Auth';
 
 import './NewsCreate.scss';
 
 function News() {
     const [title, setTitle] = useState('');
     const [slug, setSlug] = useState('');
+    const [summery, setSummery] = useState('');
+    const [body, setBody] = useState('');
+
+    const { currentUser } = useContext(AuthContext);
+    const dispatch = useDispatch();
+
+    console.log(currentUser);
 
     const handleChange = (event) => {
         const { name, value } = event.currentTarget;
@@ -18,15 +29,40 @@ function News() {
             setSlug(generateSlug(value));
         } else if (name === 'slug') {
             setSlug(generateSlug(value));
+        } else if (name === 'summery') {
+            setSummery(value);
+        } else if (name === 'body') {
+            setBody(value);
         }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const newNews = { title, slug };
+        const createdAt = new Date().toISOString();
+        const updatedAt = createdAt;
 
-        console.log(newNews);
+        const news = {
+            title,
+            slug,
+            author: {
+                id: currentUser.uid,
+                username: currentUser.displayName,
+                avatar: currentUser.photoURL,
+            },
+            summery,
+            body,
+            categories: ['videogames', 'kino-i-serialy'],
+            createdAt,
+            updatedAt,
+        };
+
+        dispatch(cerateNews(news));
+
+        setTitle('');
+        setSlug('');
+        setSummery('');
+        setBody('');
     };
 
     return (
@@ -52,7 +88,7 @@ function News() {
                         name="slug"
                         required
                         width="100%"
-                        label="Default text input field"
+                        label="Слаг"
                         placeholder="slug"
                         value={slug}
                         onChange={handleChange}
@@ -63,11 +99,18 @@ function News() {
                         name="summery"
                         type="text"
                         placeholder="summery"
+                        value={summery}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <Textarea name="body" type="text" placeholder="body" onChange={handleChange} />
+                    <Textarea
+                        name="body"
+                        type="text"
+                        placeholder="body"
+                        value={body}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <TagInput
