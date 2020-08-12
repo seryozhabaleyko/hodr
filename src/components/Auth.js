@@ -10,10 +10,12 @@ function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        auth().onAuthStateChanged((user) => {
+        /* auth().onAuthStateChanged((user) => {
             setCurrentUser(user);
             setLoading(false);
-        });
+        }); */
+        //setCurrentUser(null);
+        setLoading(false);
     }, []);
 
     if (loading) {
