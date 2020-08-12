@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import routes from './routes';
+import RouteWithSubRoutes from './components/RouteWithSubRoutes';
+
 import AuthProvider from './components/Auth';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
@@ -16,7 +19,7 @@ import Login from './pages/Login';
 import Games from './pages/Games';
 import GamesPopular from './pages/GamesPopular';
 import Game from './pages/Game';
-import News from './pages/News';
+import News, { NewsCreate } from './pages/News';
 import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
 import Admin from './pages/Admin';
@@ -34,7 +37,11 @@ function App() {
 
                         <PrivateRoute path="/profile" component={Profile} />
 
-                        <PrivateRoute path="/admin" component={Admin} />
+                        {/* <PrivateRoute path="/admin" component={Admin} /> */}
+
+                        {routes.map((route, index) => (
+                            <RouteWithSubRoutes {...route} key={index} />
+                        ))}
 
                         <PublicRoute path="/signup" component={SignUp} />
                         <PublicRoute path="/login" component={Login} />
@@ -42,11 +49,11 @@ function App() {
                         <Route path="/games" component={Games} exact />
                         <Route path="/games/popular" component={GamesPopular} />
 
-                        <Route path="/game/:slug" component={Game} exact />
+                        <Route path="/game/:slug" component={Game} />
 
-                        <Route path="/news">
-                            <News />
-                        </Route>
+                        <Route path="/news" component={News} exact />
+                        <Route path="/news/create" component={NewsCreate} exact />
+
                         <Route path="/articles">
                             <Articles />
                         </Route>
