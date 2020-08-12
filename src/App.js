@@ -39,6 +39,9 @@ function App() {
 
                         {/* <PrivateRoute path="/admin" component={Admin} /> */}
 
+                        <Route path="/news" component={News} exact />
+                        <Route path="/news/create" component={NewsCreate} exact />
+
                         {routes.map((route, index) => (
                             <RouteWithSubRoutes {...route} key={index} />
                         ))}
@@ -50,9 +53,6 @@ function App() {
                         <Route path="/games/popular" component={GamesPopular} />
 
                         <Route path="/game/:slug" component={Game} />
-
-                        <Route path="/news" component={News} exact />
-                        <Route path="/news/create" component={NewsCreate} exact />
 
                         <Route path="/articles">
                             <Articles />
