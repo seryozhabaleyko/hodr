@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Slick from 'react-slick';
 
@@ -13,12 +13,14 @@ import './Games.scss';
 import 'swiper/components/pagination/pagination.scss';
 import Genres from './components/Genres/Genres';
 
-function Games({ fetchGames, games }) {
-    useEffect(() => {
-        fetchGames();
-    }, [fetchGames]);
+function Games() {
+    const dispatch = useDispatch();
 
-    const { data = [] } = games;
+    useEffect(() => {
+        dispatch(fetchGames());
+    }, [dispatch]);
+
+    const { data = [] } = useSelector((state) => ({ data: state.games.data }));
 
     console.log('data', data);
 
@@ -86,16 +88,4 @@ function Games({ fetchGames, games }) {
     );
 }
 
-const mapStateToProps = (state) => ({
-    games: {
-        loading: state.games.loading,
-        data: state.games.data,
-        error: state.games.error,
-    },
-});
-
-const mapDispatchToProps = {
-    fetchGames,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Games);
+export default Games;
