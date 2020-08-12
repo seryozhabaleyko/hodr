@@ -1,6 +1,6 @@
 .game-page {
     position: relative;
-    background-color: #f1f1f1;
+    // background-color: #f1f1f1;
 
     &__banner {
         height: calc(100vw / 6.2 - 1px);
@@ -9,17 +9,56 @@
 
     &__game {
         background-color: #f9f9f9;
+        background-color: #f1f2f4;
     }
 
     &__heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 30px 0;
     }
 
     &__title {
         margin: 0;
+    }
+}
+
+.gp-game {
+    &__heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0 4px 0;
+    }
+
+    &__card {
+        display: flex;
+        align-items: center;
+    }
+
+    &__avatar {
+        overflow: hidden;
+        width: 80px;
+        height: 80px;
+        margin-right: 25px;
+        border-radius: 50%;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2);
+
+        img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__title {
+        margin: 0 0 5px 0;
+        font-size: 24px;
+        font-weight: 400;
+        color: #0d0d0d;
+    }
+
+    &_developer {
+        font-size: 14px;
+        font-weight: 400;
+        color: #606060;
     }
 }
 
@@ -44,15 +83,13 @@
     }
 
     &__tab {
-        margin-right: 32px;
-
         &:last-child {
             margin-right: 0;
         }
 
         &-link {
             position: relative;
-            padding: 12px 0;
+            padding: 12px 24px;
             display: block;
             text-decoration: none;
             text-transform: uppercase;
@@ -83,11 +120,23 @@
 }
 
 .gp-banner {
+    position: relative;
     overflow: hidden;
+
     &__image {
         object-fit: cover;
         width: 100%;
         height: 100%;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        box-shadow: inset 0 -120px 55px -30px rgba(0, 0, 0, 0.5);
     }
 }
 
