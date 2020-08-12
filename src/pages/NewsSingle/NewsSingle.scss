@@ -1,0 +1,22 @@
+.news-single-page {
+    position: relative;
+
+    &__heading {
+        margin: 30px 0;
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__date-title {
+        color: gray;
+    }
+
+    &__author {
+        color: gray;
+    }
+
+    &__body {
+    }
+}
