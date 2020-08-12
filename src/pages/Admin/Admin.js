@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { Switch, Link } from 'react-router-dom';
 import slugify from 'slugify';
 import { auth } from '../../services/firebase';
+
+import RouteWithSubRoutes from '../../components/RouteWithSubRoutes';
 
 import { addNewGameApi } from '../../helpers/games';
 
 import './Admin.scss';
 import Genres from './components/Genres/Genres';
 
-function Admin() {
+function Admin({ routes }) {
     const [title, setTitle] = useState('');
     const [photoUrl, setPhotoUrl] = useState('');
     const [summary, setSummary] = useState('');
@@ -54,6 +57,19 @@ function Admin() {
 
     return (
         <div className="container">
+            <ul>
+                <li>
+                    <Link to="/admin/games">Games</Link>
+                </li>
+                <li>
+                    <Link to="/admin/news">News</Link>
+                </li>
+            </ul>
+            <Switch>
+                {routes.map((route, index) => (
+                    <RouteWithSubRoutes {...route} key={index} />
+                ))}
+            </Switch>
             <header className="admin__heading">
                 <h1 className="admin__title">Admin</h1>
             </header>
