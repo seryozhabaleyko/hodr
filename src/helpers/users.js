@@ -1,12 +1,16 @@
 import { firestore } from '../services/firebase';
 
-export function trackGame(userId, gameId) {
-    firestore
-        .collection('games')
-        .doc(gameId)
+export function fetchUserApi(username) {
+    return firestore
+        .collection('users')
+        .where('username', '==', username)
         .get()
-        .then((doc) => {
-            console.log(doc.data());
+        .then((snapshot) => {
+            const user = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+            return user[0];
         });
-    return firestore.collection('users').doc(userId).set({ subscriptions: gameId });
+}
+
+export function updateUserApi(userId, data) {
+    return firestore.collection('users').doc(userId).set(data);
 }
