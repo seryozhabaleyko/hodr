@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { auth, db } from '../../services/firebase';
+import { auth } from '../../services/firebase';
+
+import { updateUserApi } from '../../helpers/users';
 
 import './Profile.scss';
 
@@ -9,6 +11,9 @@ class Profile extends Component {
         this.state = {
             user: auth().currentUser,
             photoURL: auth().currentUser.photoURL,
+            username: '',
+            name: '',
+            surname: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -25,11 +30,19 @@ class Profile extends Component {
         event.preventDefault();
         this.state.user.updateProfile({
             photoURL: this.state.photoURL,
+            displayName: this.state.username,
+        });
+
+        updateUserApi(this.state.user.uid, {
+            id: this.state.user.uid,
+            username: this.state.username,
+            name: this.state.name,
+            surname: this.state.surname,
+            photoURL: this.state.photoURL,
         });
     }
 
     render() {
-        console.log(this.state.user);
         return (
             <div className="container">
                 <h1>Profile</h1>
@@ -50,9 +63,36 @@ class Profile extends Component {
                     <h2>Обновление профиля пользователя</h2>
                     <div>
                         <input
+                            name="username"
+                            type="text"
+                            placeholder="username"
+                            value={this.state.username}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        <input
                             name="photoURL"
                             type="text"
-                            value={this.state.photoURL ? this.state.photoURL : ''}
+                            value={this.state.photoURL || ''}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Имя"
+                            value={this.state.name}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            name="surname"
+                            type="text"
+                            placeholder="Фамилия"
+                            value={this.state.surname}
                             onChange={this.handleChange}
                         />
                     </div>
