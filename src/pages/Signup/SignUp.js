@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { signup } from '../../helpers/auth';
+import { signup, createUser } from '../../helpers/auth';
 
 import './SignUp.scss';
 
@@ -27,7 +27,7 @@ function SignUp() {
         event.preventDefault();
         setError(null);
         try {
-            await signup(username, email, password);
+            await createUser({ username, email, password });
         } catch (error) {
             setError(error);
         }
@@ -41,15 +41,28 @@ function SignUp() {
                 </header>
 
                 <div>
-                    <input name="username" type="text" value={username} onChange={handleChange} />
+                    <input
+                        name="username"
+                        type="text"
+                        placeholder="username"
+                        value={username}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
-                    <input name="email" type="email" value={email} onChange={handleChange} />
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="email"
+                        value={email}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <input
                         name="password"
                         type="password"
+                        placeholder="password"
                         value={password}
                         onChange={handleChange}
                     />
