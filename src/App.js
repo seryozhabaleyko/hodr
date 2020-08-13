@@ -22,7 +22,8 @@ import Game from './pages/Game';
 import News, { NewsCreate } from './pages/News';
 import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
-import Admin from './pages/Admin';
+// import Admin from './pages/Admin';
+import User from './pages/User';
 
 function App() {
     return (
@@ -36,6 +37,8 @@ function App() {
                         </Route>
 
                         <PrivateRoute path="/profile" component={Profile} />
+
+                        <PrivateRoute path="/user/:username" component={User} />
 
                         {/* <PrivateRoute path="/admin" component={Admin} /> */}
 
