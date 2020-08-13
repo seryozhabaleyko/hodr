@@ -27,7 +27,7 @@ function NewsSingle({ match }) {
         return <p className="error__message">{error.messages}</p>;
     }
 
-    const { title, author, summery, body, createdAt } = data;
+    const { title = '', author = '', summery = '', body = '', createdAt } = data;
 
     return (
         <article className="news-single-page">
