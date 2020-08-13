@@ -6,5 +6,6 @@ import news from '../pages/News/reducer';
 import newsSingle from '../pages/NewsSingle/reducer';
 import articles from '../pages/Articles/reducer';
 import reviews from '../pages/Reviews/reducer';
+import user from '../pages/User/reducer';
 
-export default combineReducers({ games, game, news, newsSingle, articles, reviews });
+export default combineReducers({ games, game, news, newsSingle, articles, reviews, user });
