@@ -10,7 +10,7 @@ function UserAccount() {
     const { currentUser } = useContext(AuthContext);
 
     return currentUser ? (
-        <Link to="/profile">
+        <Link to={`/user/${currentUser.displayName}`}>
             <Avatar src={currentUser.photoURL} size={35} />
         </Link>
     ) : (
