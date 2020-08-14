@@ -1,14 +1,17 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 
 import Input from '../Input';
 
 import './InputField.scss';
 
-function InputField({ label, name, ...restProps }) {
+function InputField({ id = uuid(), label = 'default label', name, ...restProps }) {
     return (
-        <div>
-            <label htmlFor={name}>{label}</label>
-            <Input id={name} {...restProps} />
+        <div className="form-group">
+            <label className="form-label" htmlFor={id}>
+                {label}
+            </label>
+            <Input id={id} {...restProps} />
         </div>
     );
 }
