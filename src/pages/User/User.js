@@ -6,15 +6,16 @@ import { getUser } from './selectors';
 import { AuthContext } from '../../components/Auth';
 
 import './User.scss';
+import { Link } from 'react-router-dom';
 
 function User({ match }) {
-    const { username: slug } = match.params;
+    const { userId } = match.params;
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchUser(slug));
-    }, [dispatch, slug]);
+        dispatch(fetchUser(userId));
+    }, [dispatch, userId]);
 
     const { loading, data, error } = useSelector(getUser, shallowEqual);
 
@@ -26,7 +27,7 @@ function User({ match }) {
         return <p>{error.message}</p>;
     }
 
-    const { id, username, name, surname, photoURL } = data;
+    const { id, username, name, surname, photoURL, email } = data;
 
     const isUser = currentUser && currentUser.uid === id;
 
@@ -45,6 +46,11 @@ function User({ match }) {
                     />
                 </div>
                 <h1 className="user-page__title">{`${data.name} ${data.surname}`}</h1>
+                {isUser && (
+                    <div>
+                        <Link to={`/user/${userId}/edit`}>Редактировать профиль</Link>
+                    </div>
+                )}
             </header>
         </div>
     );
