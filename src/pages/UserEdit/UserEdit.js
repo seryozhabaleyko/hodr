@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { Button } from 'evergreen-ui';
 
 import { fetchUser } from '../User/actions';
 import { updateUser } from './actions';
 import { getUser } from '../User/selectors';
 import useFieldChange from '../../hooks/useFieldChange';
-import Input from '../../components/Input';
+import InputField from '../../components/InputField';
+import Avatar from '../../components/Avatar';
 
 import './UserEdit.scss';
 
@@ -18,54 +20,58 @@ function EditUserForm({ initialData, onSubmit }) {
         onSubmit(editUserData);
     };
 
+    const { loading, error } = useSelector((state) => state.editUser, shallowEqual);
+
+    const { avatar, name, surname, username } = editUserData;
+    const fullName = `${name} ${surname}`;
+
     return (
         <form onSubmit={handleSubmit}>
+            <header>
+                <div className="pre-user-card">
+                    <div className="pre-user-card__avatar">
+                        <Avatar size={64} src={avatar} alt={fullName} />
+                    </div>
+                    <div className="pre-user-card__body">
+                        <h1 className="pre-user-card__full-name">{fullName}</h1>
+                        <span className="pre-user-card__username">{username}</span>
+                    </div>
+                </div>
+            </header>
+
+            <InputField
+                label="Ссылка на фото"
+                name="avatar"
+                placeholder="https://material-ui.com/static/images/avatar/1.jpg"
+                value={editUserData.avatar}
+                onChange={handleChange('avatar')}
+            />
+            <InputField
+                label="Имя"
+                name="name"
+                placeholder="Сергей"
+                value={editUserData.name}
+                onChange={handleChange('name')}
+            />
+            <InputField
+                label="Фамилия"
+                name="surname"
+                placeholder="Гагарин"
+                value={editUserData.surname}
+                onChange={handleChange('surname')}
+            />
+            <InputField
+                label="Имя пользователя"
+                name="username"
+                placeholder="seryozha.baleyko"
+                value={editUserData.username}
+                onChange={handleChange('username')}
+            />
             <div>
-                <label htmlFor="avatar">Avatar Url</label>
-                <Input
-                    id="avatar"
-                    type="text"
-                    name="avatar"
-                    placeholder="https://material-ui.com/static/images/avatar/1.jpg"
-                    value={editUserData.avatar}
-                    onChange={handleChange('avatar')}
-                />
-            </div>
-            <div>
-                <label htmlFor="name">Имя</label>
-                <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Сергей"
-                    value={editUserData.name}
-                    onChange={handleChange('name')}
-                />
-            </div>
-            <div>
-                <label htmlFor="surname">Фамилия</label>
-                <Input
-                    id="surname"
-                    name="surname"
-                    type="text"
-                    placeholder="Балейко"
-                    value={editUserData.surname}
-                    onChange={handleChange('surname')}
-                />
-            </div>
-            <div>
-                <label htmlFor="username">Имя пользователя</label>
-                <Input
-                    id="username"
-                    name="username"
-                    type="text"
-                    placeholder="seryozha.baleyko"
-                    value={editUserData.username}
-                    onChange={handleChange('username')}
-                />
-            </div>
-            <div>
-                <button type="submit">Редактировать</button>
+                {error && <p style={{ color: 'red' }}>error.message</p>}
+                <Button isLoading={loading} type="submit" appearance="primary" height="40">
+                    Редактировать
+                </Button>
             </div>
         </form>
     );
@@ -86,7 +92,7 @@ function UserEdit({ match }) {
     }
 
     if (error) {
-        return <p>error.message</p>;
+        return <p>{error.message}</p>;
     }
 
     const initialData = {
@@ -107,6 +113,8 @@ function UserEdit({ match }) {
             </header>
 
             <EditUserForm initialData={initialData} onSubmit={onSubmit} />
+
+            <div style={{ height: '30px' }}></div>
         </div>
     );
 }
