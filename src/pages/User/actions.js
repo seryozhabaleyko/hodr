@@ -11,9 +11,9 @@ const fetchUserFailure = (error) => ({
     payload: error,
 });
 
-export const fetchUser = (username) => async (dispatch) => {
+export const fetchUser = (userId) => async (dispatch) => {
     try {
-        const response = await fetchUserApi(username);
+        const response = await fetchUserApi(userId);
 
         if (!response) {
             throw new Error('Такого пользователя не существует.');
