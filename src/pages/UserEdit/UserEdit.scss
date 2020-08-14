@@ -7,3 +7,24 @@
         margin: 0;
     }
 }
+
+.pre-user-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+
+    &__avatar {
+    }
+
+    &__body {
+        margin-left: 10px;
+    }
+
+    &__full-name {
+        font-size: 25px;
+        margin-bottom: 0.25rem;
+    }
+
+    &__username {
+    }
+}
