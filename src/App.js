@@ -24,6 +24,7 @@ import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
 // import Admin from './pages/Admin';
 import User from './pages/User';
+import UserEdit from './pages/UserEdit';
 
 function App() {
     return (
@@ -38,7 +39,8 @@ function App() {
 
                         <PrivateRoute path="/profile" component={Profile} />
 
-                        <PrivateRoute path="/user/:username" component={User} />
+                        <PrivateRoute path="/user/:userId" component={User} exact />
+                        <PrivateRoute path="/user/:userId/edit" component={UserEdit} />
 
                         {/* <PrivateRoute path="/admin" component={Admin} /> */}
 
