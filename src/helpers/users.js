@@ -1,16 +1,13 @@
 import { firestore } from '../services/firebase';
 
-export function fetchUserApi(username) {
+export function fetchUserApi(userId) {
     return firestore
         .collection('users')
-        .where('username', '==', username)
+        .doc(userId)
         .get()
-        .then((snapshot) => {
-            const user = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-            return user[0];
-        });
+        .then((doc) => ({ ...doc.data(), id: doc.id }));
 }
 
 export function updateUserApi(userId, data) {
-    return firestore.collection('users').doc(userId).set(data);
+    return firestore.collection('users').doc(userId).update(data);
 }
