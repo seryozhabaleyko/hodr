@@ -17,10 +17,6 @@ function Reviews() {
         <div className="container">
             <header className="reviews-page__heading">
                 <h1 className="reviews-page__title">Рецензии</h1>
-                <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
             </header>
 
             <ReviewsList />
