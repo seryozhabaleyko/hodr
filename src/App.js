@@ -39,8 +39,8 @@ function App() {
 
                         <PrivateRoute path="/profile" component={Profile} />
 
-                        <PrivateRoute path="/user/:userId" component={User} exact />
-                        <PrivateRoute path="/user/:userId/edit" component={UserEdit} />
+                        <PrivateRoute path="/user/:username" component={User} exact />
+                        <PrivateRoute path="/user/:username/edit" component={UserEdit} exact />
 
                         {/* <PrivateRoute path="/admin" component={Admin} /> */}
 
