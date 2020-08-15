@@ -5,10 +5,11 @@ import { Textarea, TagInput, Button, TextInputField } from 'evergreen-ui';
 
 import { cerateNews } from './actions';
 import { AuthContext } from '../../components/Auth';
+import { InputField } from '../../components/ui';
 
 import './NewsCreate.scss';
 
-function News() {
+function CreateNewNews() {
     const [title, setTitle] = useState('');
     const [slug, setSlug] = useState('');
     const [summery, setSummery] = useState('');
@@ -16,8 +17,6 @@ function News() {
 
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
-
-    console.log(currentUser);
 
     const handleChange = (event) => {
         const { name, value } = event.currentTarget;
@@ -47,8 +46,6 @@ function News() {
             slug,
             author: {
                 id: currentUser.uid,
-                username: currentUser.displayName,
-                avatar: currentUser.photoURL,
             },
             summery,
             body,
@@ -132,4 +129,4 @@ function News() {
     );
 }
 
-export default News;
+export default CreateNewNews;
