@@ -1,14 +1,41 @@
 .news-card-skeleton {
-    --background-color: #ddd;
+    --background-color: rgba(0, 0, 0, 0.11);
 
     &__image {
         height: 150px;
         background-color: var(--background-color);
+        animation: MuiSkeleton-keyframes-pulse 1.5s ease-in-out 0.5s infinite;
+    }
+
+    &__content {
     }
 
     &__title {
         margin-top: 10px;
-        height: 20px;
+        height: 15px;
+        border-radius: 4px;
         background-color: var(--background-color);
+        animation: MuiSkeleton-keyframes-pulse 1.5s ease-in-out 0.5s infinite;
+    }
+
+    &__date-time {
+        width: 60%;
+        height: 15px;
+        margin-top: 10px;
+        border-radius: 4px;
+        background-color: var(--background-color);
+        animation: MuiSkeleton-keyframes-pulse 1.5s ease-in-out 0.5s infinite;
+    }
+}
+
+@keyframes MuiSkeleton-keyframes-pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
     }
 }
