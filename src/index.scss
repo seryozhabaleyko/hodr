@@ -1,22 +1,7 @@
-*,
+/* *,
 *::before,
 *::after {
     box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-    height: 100%;
-}
-
-#root {
-    display: flex;
-    flex-direction: column;
-}
-
-.main {
-    flex: 1 0 auto;
 }
 
 body {
@@ -439,6 +424,21 @@ progress {
 
 [hidden] {
     display: none !important;
+} */
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex: 1 0 auto;
 }
 
 .container,
