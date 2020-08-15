@@ -6,8 +6,7 @@ import { fetchUser } from '../User/actions';
 import { updateUser } from './actions';
 import { getUser } from '../User/selectors';
 import useFieldChange from '../../hooks/useFieldChange';
-import InputField from '../../components/InputField';
-import Avatar from '../../components/Avatar';
+import { InputField, Avatar } from '../../components/ui';
 
 import './UserEdit.scss';
 
@@ -79,7 +78,7 @@ function EditUserForm({ initialData, onSubmit }) {
 
 function UserEdit({ match }) {
     const dispatch = useDispatch();
-    const { userId } = match.params;
+    const { username: userId } = match.params;
 
     useEffect(() => {
         dispatch(fetchUser(userId));
