@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
 
 import { fetchArticles } from './actions';
 import { getArticles } from './selectors';
@@ -13,14 +14,17 @@ function Articles() {
         dispatch(fetchArticles());
     }, [dispatch]);
 
+    const options = [
+        { value: 'chocolate', label: 'Chocolate' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' },
+    ];
+
     return (
         <div className="container">
             <header className="articles-page__heading">
                 <h1 className="articles-page__title">Статьи</h1>
-                <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
+                <Select className="articles-page__filters" options={options} />
             </header>
             <ArticlesList />
         </div>
