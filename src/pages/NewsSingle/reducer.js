@@ -1,4 +1,8 @@
-import { FETCH_NEWS_SINGLE_SUCCESS, FETCH_NEWS_SINGLE_FAILURE } from './actionTypes';
+import {
+    FETCH_NEWS_SINGLE_REQUEST,
+    FETCH_NEWS_SINGLE_SUCCESS,
+    FETCH_NEWS_SINGLE_FAILURE,
+} from './actionTypes';
 
 const initialState = {
     loading: true,
@@ -8,6 +12,8 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
+        case FETCH_NEWS_SINGLE_REQUEST:
+            return { ...state, loading: true, error: null };
         case FETCH_NEWS_SINGLE_SUCCESS:
             return { ...state, loading: false, data: payload };
         case FETCH_NEWS_SINGLE_FAILURE:
