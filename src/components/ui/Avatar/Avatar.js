@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { memo, forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import './Avatar.scss';
 
-function Avatar({ src, size = 24, shape = 'circle', alt }) {
+const Avatar = forwardRef((props, ref) => {
+    const { src, size = 24, shape = 'circle', alt, ...restProps } = props;
     const isClassShape = shape === 'circle' ? 'avatar-circle' : 'avatar-square';
     const classes = classNames('avatar', isClassShape, { 'avatar-image': src });
 
@@ -12,11 +13,13 @@ function Avatar({ src, size = 24, shape = 'circle', alt }) {
         <span
             className={classes}
             style={{ width: `${size}px`, height: `${size}px`, lineHeight: `${size}px` }}
+            ref={ref}
+            {...restProps}
         >
             <img src={src} alt={alt} />
         </span>
     );
-}
+});
 
 Avatar.propTypes = {
     src: PropTypes.string,
@@ -25,4 +28,4 @@ Avatar.propTypes = {
     shape: PropTypes.oneOf(['circle', 'square']),
 };
 
-export default Avatar;
+export default memo(Avatar);
