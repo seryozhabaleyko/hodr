@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
+import { Input, Button } from 'antd';
 import slugify from 'slugify';
-import { Textarea, TagInput, Button, TextInputField } from 'evergreen-ui';
 
 import { cerateNews } from './actions';
 import { AuthContext } from '../../components/Auth';
-import { InputField } from '../../components/ui';
 
 import './NewsCreate.scss';
 
@@ -62,63 +61,47 @@ function CreateNewNews() {
         setBody('');
     };
 
+    const isDisabled = !title || !summery || !body;
+
     return (
         <div className="container">
             <header className="np-create__heading">
-                <h1 className="np-create__title">Создать новости</h1>
+                <h1 className="np-create__title">Создать новость</h1>
             </header>
 
-            <form className="np-create__create-new-news" onSubmit={handleSubmit}>
-                <div>
-                    <TextInputField
-                        name="title"
-                        required
-                        width="100%"
-                        label="Заголовок новости"
-                        placeholder="title"
-                        value={title}
-                        onChange={handleChange}
-                    />
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label className="form-label" htmlFor="title">
+                        Название новости
+                    </label>
+                    <Input id="title" name="title" value={title} onChange={handleChange} />
                 </div>
-                <div>
-                    <TextInputField
-                        name="slug"
-                        required
-                        width="100%"
-                        label="Слаг"
-                        placeholder="slug"
-                        value={slug}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <Textarea
+                <div className="form-group">
+                    <label className="form-label" htmlFor="summery">
+                        Краткое содержание
+                    </label>
+                    <Input.TextArea
+                        rows={4}
+                        id="summery"
                         name="summery"
-                        type="text"
-                        placeholder="summery"
                         value={summery}
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <Textarea
+                <div className="form-group">
+                    <label className="form-label" htmlFor="body">
+                        Полное содержание
+                    </label>
+                    <Input.TextArea
+                        rows={8}
+                        id="body"
                         name="body"
-                        type="text"
-                        placeholder="body"
                         value={body}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <TagInput
-                        width="100%"
-                        height={40}
-                        type="text"
-                        inputProps={{ placeholder: 'Categories...' }}
-                    />
-                </div>
-                <div>
-                    <Button height={40} appearance="primary" intent="none" type="submit">
+                    <Button type="primary" htmlType="submit" disabled={isDisabled}>
                         Опубликовать новость
                     </Button>
                 </div>
