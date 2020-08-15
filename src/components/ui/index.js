@@ -4,3 +4,4 @@ export { Avatar } from './Avatar';
 export { Spinner } from './Spinner';
 export { Select } from './Select';
 export { Button } from './Button';
+export { Image } from './Image';
