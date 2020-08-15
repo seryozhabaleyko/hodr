@@ -13,6 +13,7 @@ import coverImg from './3.jpg';
 import avatarGame from './AVGame.jpg';
 
 import './Game.scss';
+import NewsCard from '../../pages/News/components/NewsCard/NewsCardSkeleton';
 
 const tabsList = [
     { label: 'Об игре', to: '#', exact: true },
@@ -36,7 +37,7 @@ function GamePage({ match }) {
 
     const { loading, data, error } = useSelector(getGame, shallowEqual);
 
-    /* if (loading) {
+    if (loading) {
         return <p>Loading...</p>;
     }
 
@@ -46,7 +47,7 @@ function GamePage({ match }) {
                 {error.message}
             </p>
         );
-    } */
+    }
 
     return (
         <article className="game-page">
@@ -126,9 +127,7 @@ function GamePage({ match }) {
                                 </header>
                                 <div className="gp-videos__list gp-videos__grid">
                                     {videosList.map((video, videoIndex) => (
-                                        <article className="gp-videos__video" key={videoIndex}>
-                                            1
-                                        </article>
+                                        <NewsCard key={videoIndex} />
                                     ))}
                                 </div>
                             </section>
@@ -140,12 +139,7 @@ function GamePage({ match }) {
                                 </header>
                                 <div className="gp-screenshots__list gp-screenshots__grid">
                                     {videosList.map((video, videoIndex) => (
-                                        <article
-                                            className="gp-screenshots__screenshot"
-                                            key={videoIndex}
-                                        >
-                                            1
-                                        </article>
+                                        <NewsCard key={videoIndex} />
                                     ))}
                                 </div>
                             </section>
@@ -159,10 +153,8 @@ function GamePage({ match }) {
                                     </Link>
                                 </header>
                                 <div className="gp-news__list gp-news__grid">
-                                    {videosList.map((video, videoIndex) => (
-                                        <article className="gp-news__news" key={videoIndex}>
-                                            1
-                                        </article>
+                                    {[...Array(5)].map((video, videoIndex) => (
+                                        <NewsCard key={videoIndex} />
                                     ))}
                                 </div>
                             </section>
@@ -174,9 +166,7 @@ function GamePage({ match }) {
                                 </header>
                                 <div className="gp-articles__list gp-articles__grid">
                                     {videosList.map((video, videoIndex) => (
-                                        <article className="gp-articles__article" key={videoIndex}>
-                                            1
-                                        </article>
+                                        <NewsCard key={videoIndex} />
                                     ))}
                                 </div>
                             </section>
