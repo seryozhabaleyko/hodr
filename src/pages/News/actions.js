@@ -1,10 +1,15 @@
 import {
+    FETCH_NEWS_REQUEST,
     FETCH_NEWS_SUCCESS,
     FETCH_NEWS_FAILURE,
     CREATE_NEWS_SUCCESS,
     CREATE_NEWS_FAILURE,
 } from './actionTypes';
 import { fetchNewsApi, cerateNewsApi } from '../../helpers/news';
+
+const fetchNewsRequest = () => ({
+    type: FETCH_NEWS_REQUEST,
+});
 
 const fetchNewsSuccess = (data) => ({
     type: FETCH_NEWS_SUCCESS,
@@ -17,6 +22,7 @@ const fetchNewsFailure = (error) => ({
 });
 
 export const fetchNews = () => async (dispatch) => {
+    dispatch(fetchNewsRequest());
     try {
         const response = await fetchNewsApi();
 
