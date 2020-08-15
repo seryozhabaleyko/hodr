@@ -6,10 +6,10 @@ import { getUser } from './selectors';
 import { AuthContext } from '../../components/Auth';
 
 import './User.scss';
-import { Link } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 
 function User({ match }) {
-    const { userId } = match.params;
+    const { username: userId } = match.params;
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
 
@@ -31,8 +31,6 @@ function User({ match }) {
 
     const isUser = currentUser && currentUser.uid === id;
 
-    console.log('is user', currentUser);
-
     return (
         <div className="container">
             <header className="user-page__heading">
@@ -52,6 +50,46 @@ function User({ match }) {
                     </div>
                 )}
             </header>
+
+            <nav>
+                <ul className="nav-list">
+                    <li className="nav-item">
+                        <Link className="nav-link" to={`/user/${userId}/news`}>
+                            news
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to={`/user/${userId}/games`}>
+                            games
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to={`/user/${userId}/articles`}>
+                            articles
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to={`/user/${userId}/reviews`}>
+                            reviews
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+
+            <Switch>
+                <Route path={`/user/${userId}/news`} exact>
+                    <h1>news</h1>
+                </Route>
+                <Route path={`/user/${userId}/games`} exact>
+                    <h1>games</h1>
+                </Route>
+                <Route path={`/user/${userId}/articles`} exact>
+                    <h1>articles</h1>
+                </Route>
+                <Route path={`/user/${userId}/reviews`} exact>
+                    <h1>reviews</h1>
+                </Route>
+            </Switch>
         </div>
     );
 }
