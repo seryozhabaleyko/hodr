@@ -15,8 +15,30 @@ export function cerateNewsApi(data) {
         .then(mapDoc);
 }
 
-export function fetchNewsSingleApi(slug) {
-    return firestore.collection('news').where('slug', '==', slug).get().then(mapSnapshot);
+export async function fetchNewsSingleApi(slug) {
+    const news = await firestore
+        .collection('news')
+        .where('slug', '==', slug)
+        .get()
+        .then((snapshot) =>
+            snapshot.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id,
+            })),
+        );
+
+    const user = await firestore.collection('users').doc(news[0].author.id).get().then(mapDoc);
+
+    return {
+        ...news[0],
+        author: {
+            id: user.id,
+            name: user.name,
+            surname: user.surname,
+            avatar: user.avatar,
+            username: user.username,
+        },
+    };
 }
 
 function mapSnapshot(snapshot) {
