@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { formatDate } from '../../helpers/formatDate';
+
 import './NewsCard.scss';
 
 function NewsCard({ title, slug, createdAt }) {
@@ -12,7 +14,7 @@ function NewsCard({ title, slug, createdAt }) {
                     <h3 className="news-card__title">{title}</h3>
                 </Link>
                 <time className="news-card__date-time" dateTime={createdAt}>
-                    {createdAt}
+                    {formatDate(new Date(createdAt))}
                 </time>
             </div>
         </article>
