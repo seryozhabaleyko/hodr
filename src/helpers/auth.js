@@ -38,6 +38,10 @@ export async function createUser({
                     avatarUrl,
                     name,
                     surname,
+                    games: [],
+                    news: [],
+                    articles: [],
+                    reviews: [],
                 });
             }
         });
