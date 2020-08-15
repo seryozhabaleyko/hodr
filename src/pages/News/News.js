@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Select } from 'antd';
 
 import { fetchNews } from './actions';
 import { getNews } from './selectors';
 import { NewsCardSkeleton } from './components/NewsCard';
 import NewsCard from '../../components/NewsCard';
-import { Select } from '../../components/ui';
 
 import './News.scss';
 
@@ -45,12 +45,32 @@ function NewsList() {
 
 function Filters() {
     const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
+        { value: 'all', label: 'Все' },
+        { value: 'games', label: 'Игры' },
+        { value: 'movieAndSeries', label: 'Кино и сериалы' },
+        { value: 'comicsAndBooks', label: 'Комиксы и книги' },
+        { value: 'internet', label: 'Интернет' },
+        { value: 'technology', label: 'Технологии' },
+        { value: 'cybersport', label: 'Киберспорт' },
+        { value: 'life', label: 'Жизнь' },
+        { value: 'music', label: 'Музыка' },
+        { value: 'specialProjects', label: 'Спецпроекты' },
+        { value: 'auto', label: 'Авто' },
     ];
 
-    return <Select options={options} />;
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+
+    return (
+        <Select defaultValue="all" style={{ minWidth: '160px' }} onChange={handleChange}>
+            {options.map(({ value, label }, i) => (
+                <Select.Option value={value} key={i}>
+                    {label}
+                </Select.Option>
+            ))}
+        </Select>
+    );
 }
 
 function News() {
