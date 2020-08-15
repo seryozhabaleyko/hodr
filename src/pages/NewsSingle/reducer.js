@@ -9,7 +9,7 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
     switch (type) {
         case FETCH_NEWS_SINGLE_SUCCESS:
-            return { ...state, loading: false, data: payload[0] };
+            return { ...state, loading: false, data: payload };
         case FETCH_NEWS_SINGLE_FAILURE:
             return { ...state, loading: false, error: payload };
 
