@@ -5,7 +5,7 @@ import { fetchNews } from './actions';
 import { getNews } from './selectors';
 import { NewsCardSkeleton } from './components/NewsCard';
 import NewsCard from '../../components/NewsCard';
-import Select from '../../components/Select';
+import { Select } from '../../components/ui';
 
 import './News.scss';
 
