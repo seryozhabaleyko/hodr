@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Slick from 'react-slick';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import GameCard from '../../components/GameCard';
@@ -12,6 +10,7 @@ import { fetchGames } from './actions';
 import './Games.scss';
 import 'swiper/components/pagination/pagination.scss';
 import Genres from './components/Genres/Genres';
+import { getCollectionNewGames } from './selectors';
 
 function Games() {
     const dispatch = useDispatch();
@@ -20,9 +19,9 @@ function Games() {
         dispatch(fetchGames());
     }, [dispatch]);
 
-    const { data = [] } = useSelector((state) => ({ data: state.games.data }));
+    const { items = [] } = useSelector(getCollectionNewGames, shallowEqual);
 
-    console.log('data', data);
+    console.log('items', items);
 
     const settings = {
         dots: false,
@@ -54,7 +53,7 @@ function Games() {
                 </Slick>
 
                 <Swiper spaceBetween={30} slidesPerView={7} pagination={{ clickable: true }}>
-                    {[...data, ...Array(10)].map((game, index) => (
+                    {[...items, ...Array(10)].map((game, index) => (
                         <SwiperSlide key={index}>
                             <GameCard {...game} />
                         </SwiperSlide>
