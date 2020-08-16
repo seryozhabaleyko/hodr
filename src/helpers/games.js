@@ -13,7 +13,14 @@ export function fetchGamesApi() {
     return firestore
         .collection('games')
         .get()
-        .then((querySnapshot) => querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+}
+
+export function fetchPopularGamesApi() {
+    return firestore
+        .collection('games')
+        .get()
+        .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 }
 
 export function fetchGameApi(slug) {
