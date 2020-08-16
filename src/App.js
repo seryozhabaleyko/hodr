@@ -25,6 +25,7 @@ import Reviews from './pages/Reviews';
 // import Admin from './pages/Admin';
 import User from './pages/User';
 import UserEdit from './pages/UserEdit';
+import NewsSingle from './pages/NewsSingle';
 
 function App() {
     return (
@@ -46,6 +47,7 @@ function App() {
 
                         <Route path="/news" component={News} exact />
                         <Route path="/news/create" component={NewsCreate} exact />
+                        <Route path="/news/:slug" component={NewsSingle} exact />
 
                         {routes.map((route, index) => (
                             <RouteWithSubRoutes {...route} key={index} />
