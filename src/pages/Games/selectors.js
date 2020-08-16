@@ -1,4 +1,4 @@
-export const getGamesPopular = (state) => {};
+import { createSelector } from 'reselect';
 
 export const getGenres = (state) => {
     let data = [];
@@ -17,3 +17,44 @@ export const getGenres = (state) => {
         error: state.games.genres.error,
     };
 };
+
+const gamesLoading = (state) => state.games.loading;
+const gamesItems = (state) => state.games.data;
+const gamesError = (state) => state.games.error;
+
+const sortByDateGamesItems = createSelector(gamesItems, (items) =>
+    items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+);
+
+export const getNewGames = createSelector(
+    gamesLoading,
+    sortByDateGamesItems,
+    gamesError,
+    (loading, items, error) => ({
+        loading,
+        items,
+        error,
+    }),
+);
+
+export const getPopularGames = createSelector(
+    gamesLoading,
+    sortByDateGamesItems,
+    gamesError,
+    (loading, items, error) => ({
+        loading,
+        items,
+        error,
+    }),
+);
+
+export const getCollectionNewGames = createSelector(
+    gamesLoading,
+    sortByDateGamesItems,
+    gamesError,
+    (loading, items, error) => ({
+        loading,
+        items: items.slice(0, 15),
+        error,
+    }),
+);
