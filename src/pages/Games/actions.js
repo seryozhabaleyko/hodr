@@ -3,8 +3,16 @@ import {
     FETCH_GAMES_FAILURE,
     FETCH_GENRES_SUCCESS,
     FETCH_GENRES_FAILURE,
+    FETCH_GAMES_REQUEST,
+    FETCH_POPULAR_GAMES_REQUEST,
+    FETCH_POPULAR_GAMES_SUCCESS,
+    FETCH_POPULAR_GAMES_FAILURE,
 } from './actionTypes';
-import { fetchGamesApi, fetchGenresApi } from '../../helpers/games';
+import { fetchGamesApi, fetchPopularGamesApi, fetchGenresApi } from '../../helpers/games';
+
+const fetchGamesRequest = () => ({
+    type: FETCH_GAMES_REQUEST,
+});
 
 const fetchGamesSuccess = (games) => ({
     type: FETCH_GAMES_SUCCESS,
@@ -17,6 +25,7 @@ const fetchGamesFailure = (error) => ({
 });
 
 export const fetchGames = () => async (dispatch) => {
+    dispatch(fetchGamesRequest());
     try {
         const response = await fetchGamesApi();
         dispatch(fetchGamesSuccess(response));
@@ -41,5 +50,29 @@ export const fetchGenres = () => async (dispatch) => {
         dispatch(fetchGenresSuccess(response));
     } catch (error) {
         dispatch(fetchGenresFailure(error));
+    }
+};
+
+const fetchPopularGamesRequest = () => ({
+    type: FETCH_POPULAR_GAMES_REQUEST,
+});
+
+const fetchPopularGamesSuccess = (data) => ({
+    type: FETCH_POPULAR_GAMES_SUCCESS,
+    payload: data,
+});
+
+const fetchPopularGamesFailure = (error) => ({
+    type: FETCH_POPULAR_GAMES_FAILURE,
+    payload: error,
+});
+
+export const fetchPopularGames = () => async (dispatch) => {
+    dispatch(fetchPopularGamesRequest());
+    try {
+        const response = await fetchPopularGamesApi();
+        dispatch(fetchPopularGamesSuccess(response));
+    } catch (error) {
+        dispatch(fetchPopularGamesFailure(error));
     }
 };
