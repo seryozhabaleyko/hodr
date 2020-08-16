@@ -17,7 +17,7 @@ import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Games from './pages/Games';
-import GamesPopular from './pages/GamesPopular';
+import GamesPopular from './pages/Games/GamesPopular';
 import Game from './pages/Game';
 import News, { NewsCreate } from './pages/News';
 import Articles from './pages/Articles';
