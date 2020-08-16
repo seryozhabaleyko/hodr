@@ -1,8 +1,8 @@
-import Games from './Games';
 import * as actions from './actions';
 import * as constants from './constants';
-import reducer from './reducer';
 import * as selectors from './selectors';
+import Games from './Games';
+export { actions, constants, selectors };
+export { default as reducer } from './reducer';
 
-export { actions, constants, reducer, selectors };
 export default Games;
