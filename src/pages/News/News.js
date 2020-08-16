@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Select } from 'antd';
 
@@ -6,6 +7,7 @@ import { fetchNews } from './actions';
 import { getNews } from './selectors';
 import { NewsCardSkeleton } from './components/NewsCard';
 import NewsCard from '../../components/NewsCard';
+import useQuery from '../../hooks/useQuery';
 
 import './News.scss';
 
@@ -44,22 +46,32 @@ function NewsList() {
 }
 
 function Filters() {
+    const history = useHistory();
+
     const options = [
         { value: 'all', label: 'Все' },
         { value: 'games', label: 'Игры' },
-        { value: 'movieAndSeries', label: 'Кино и сериалы' },
-        { value: 'comicsAndBooks', label: 'Комиксы и книги' },
+        { value: 'movie-and-series', label: 'Кино и сериалы' },
+        { value: 'comics-and-books', label: 'Комиксы и книги' },
         { value: 'internet', label: 'Интернет' },
         { value: 'technology', label: 'Технологии' },
         { value: 'cybersport', label: 'Киберспорт' },
         { value: 'life', label: 'Жизнь' },
         { value: 'music', label: 'Музыка' },
-        { value: 'specialProjects', label: 'Спецпроекты' },
+        { value: 'special-projects', label: 'Спецпроекты' },
         { value: 'auto', label: 'Авто' },
     ];
 
     const handleChange = (value) => {
-        console.log(`selected ${value}`);
+        let url;
+
+        if (value === 'all') {
+            url = '/news';
+        } else {
+            url = `/news?category=${value}`;
+        }
+
+        history.push(url);
     };
 
     return (
@@ -75,10 +87,16 @@ function Filters() {
 
 function News() {
     const dispatch = useDispatch();
+    const query = useQuery();
+    const category = query.get('category');
 
     useEffect(() => {
-        dispatch(fetchNews());
-    }, [dispatch]);
+        if (category === null) {
+            dispatch(fetchNews());
+        } else {
+            dispatch(fetchNews(category));
+        }
+    }, [dispatch, category]);
 
     return (
         <div className="container">
