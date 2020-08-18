@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { Input, Button } from 'antd';
+import { Input, Button, Select, DatePicker } from 'antd';
 import slugify from 'slugify';
+// import moment from 'moment';
 
 import { cerateNews } from './actions';
+import { options } from './constants';
 import { AuthContext } from '../../components/Auth';
 
 import './NewsCreate.scss';
@@ -13,6 +15,7 @@ function CreateNewNews() {
     const [slug, setSlug] = useState('');
     const [summery, setSummery] = useState('');
     const [body, setBody] = useState('');
+    const [categories, setCategories] = useState([]);
 
     const { currentUser } = useContext(AuthContext);
     const dispatch = useDispatch();
@@ -34,6 +37,10 @@ function CreateNewNews() {
         }
     };
 
+    const handleSelectChange = (value) => {
+        setCategories(value);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -48,7 +55,7 @@ function CreateNewNews() {
             },
             summery,
             body,
-            categories: ['videogames', 'kino-i-serialy'],
+            categories,
             createdAt,
             updatedAt,
         };
@@ -61,7 +68,7 @@ function CreateNewNews() {
         setBody('');
     };
 
-    const isDisabled = !title || !summery || !body;
+    const isDisabled = !title || !summery || !body || !categories.length;
 
     return (
         <div className="container">
@@ -100,6 +107,26 @@ function CreateNewNews() {
                         onChange={handleChange}
                     />
                 </div>
+
+                <div className="form-group">
+                    <Select
+                        mode="multiple"
+                        style={{ width: '50%' }}
+                        placeholder="Выберите категорию"
+                        onChange={handleSelectChange}
+                    >
+                        {options.slice(1, options.length).map(({ label, value }) => (
+                            <Select.Option value={value} key={value}>
+                                {label}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                </div>
+
+                <div className="form-group">
+                    <DatePicker showTime />
+                </div>
+
                 <div>
                     <Button type="primary" htmlType="submit" disabled={isDisabled}>
                         Опубликовать новость
