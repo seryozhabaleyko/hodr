@@ -14,10 +14,12 @@
     "marked": "^1.1.1",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
+    "react-router-use-location-state": "^2.3.1",
     "react-scripts": "^3.4.3",
     "react-select": "^3.1.0",
     "react-slick": "^0.27.3",
@@ -27,6 +29,7 @@
     "reselect": "^4.0.0",
     "slugify": "^1.4.5",
     "swiper": "^6.1.1",
+    "use-location-state": "^2.3.1",
     "uuid": "^8.3.0"
   },
   "scripts": {
