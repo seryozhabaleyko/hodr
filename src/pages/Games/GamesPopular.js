@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useQueryState } from 'react-router-use-location-state';
+// import queryString from 'query-string';
 import { Button, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 
@@ -11,10 +13,13 @@ import useQuery from '../../hooks/useQuery';
 import './GamesPopular.scss';
 
 function GamesPopular() {
+    const [ratings, setRatings] = useQueryState('ratings', 'all');
+    const [years, setYears] = useQueryState('years', 'all');
     const dispatch = useDispatch();
     const query = useQuery();
 
     console.log(query.get('name'));
+    console.log(query.get('genres'));
 
     useEffect(() => {
         document.title = 'Популярные игры - Hodr - компьютерные игры';
@@ -48,7 +53,7 @@ function GamesPopular() {
         { label: 'Super Nintendo (SNES)', value: 'superNintendo(SNES)' },
     ];
 
-    const genres = [
+    const optionsGenres = [
         { label: 'Все жанры', value: 'all' },
         { label: 'Экшен', value: 'action' },
         { label: 'Шутеры', value: 'shooters' },
@@ -65,27 +70,44 @@ function GamesPopular() {
         { label: 'Пазлы', value: 'puzzle' },
     ];
 
-    const users = [
+    const optionsRatings = [
         { label: 'Оценка пользователей', value: 'all' },
-        { label: '1 - 3', value: '1and3' },
-        { label: '4 - 7', value: '4and7' },
-        { label: '8 - 10', value: '8and10' },
+        { label: '1 - 3', value: '1-3' },
+        { label: '4 - 7', value: '4-7' },
+        { label: '8 - 10', value: '8-10' },
     ];
 
-    const date = [
+    const optionsYears = [
         { label: 'Дата выхода', value: 'all' },
-        { label: '1985 - 1989', value: '1' },
-        { label: '1990 - 1994', value: '2' },
-        { label: '1995 - 1999', value: '3' },
-        { label: '2000 - 2004', value: '4' },
-        { label: '2005 - 2009', value: '5' },
-        { label: '2010 - 2014', value: '6' },
-        { label: '2015 - 2019', value: '7' },
-        { label: '2018', value: '8' },
-        { label: '2019', value: '9' },
-        { label: '2020', value: '10' },
-        { label: '2021', value: '?years=2021' },
+        { label: '1985 - 1989', value: '1985-1989' },
+        { label: '1990 - 1994', value: '1990-1994' },
+        { label: '1995 - 1999', value: '1995-1999' },
+        { label: '2000 - 2004', value: '2000-2004' },
+        { label: '2005 - 2009', value: '2005-2009' },
+        { label: '2010 - 2014', value: '2010-2014' },
+        { label: '2015 - 2019', value: '2015-2019' },
+        { label: '2018', value: '2018' },
+        { label: '2019', value: '2019' },
+        { label: '2020', value: '2020' },
+        { label: '2021', value: '2021' },
     ];
+
+    const handleSelect = (value, props2) => {
+        setYears(value);
+        console.log('1', value);
+        console.log('2', props2);
+    };
+
+    const handleRatingsChange = (value, option) => {
+        setRatings(value);
+
+        console.log('value', value);
+        console.log('option', option);
+    };
+
+    const handleYearsChange = (value, option) => {
+        setYears(value);
+    };
 
     return (
         <div className="container">
@@ -97,34 +119,25 @@ function GamesPopular() {
             </header>
 
             <div className="games-page-popular__filters">
-                <Select defaultValue="all" style={{ minWidth: 180 }}>
-                    {platforms.map(({ label, value }) => (
-                        <Select.Option value={value} key={value}>
-                            {label}
-                        </Select.Option>
-                    ))}
-                </Select>
-                <Select defaultValue="all" style={{ minWidth: 180 }}>
-                    {genres.map(({ label, value }) => (
-                        <Select.Option value={value} key={value}>
-                            {label}
-                        </Select.Option>
-                    ))}
-                </Select>
-                <Select defaultValue="all" style={{ minWidth: 180 }}>
-                    {users.map(({ label, value }) => (
-                        <Select.Option value={value} key={value}>
-                            {label}
-                        </Select.Option>
-                    ))}
-                </Select>
-                <Select defaultValue="all" style={{ minWidth: 180 }}>
-                    {date.map(({ label, value }) => (
-                        <Select.Option value={value} key={value}>
-                            {label}
-                        </Select.Option>
-                    ))}
-                </Select>
+                <Select
+                    defaultValue="all"
+                    options={platforms}
+                    style={{ minWidth: 180 }}
+                    onSelect={handleSelect}
+                />
+                <Select defaultValue="all" options={optionsGenres} style={{ minWidth: 180 }} />
+                <Select
+                    defaultValue="all"
+                    options={optionsRatings}
+                    style={{ minWidth: 180 }}
+                    onChange={handleRatingsChange}
+                />
+                <Select
+                    defaultValue="all"
+                    options={optionsYears}
+                    style={{ minWidth: 180 }}
+                    onChange={handleYearsChange}
+                />
             </div>
 
             <GamesPopularList />
