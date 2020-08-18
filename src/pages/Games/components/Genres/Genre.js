@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Genre({ title, slug }) {
+function Genre({ label, value }) {
     return (
-        <Link to={`/games/${slug}/popular`}>
+        <Link to={`/games/${value}/popular`}>
             <article className="gp-genres__genre gp-genre">
                 <span role="img" aria-label="Panda">
                     🐼
                 </span>
-                <div className="gp-genre__title">{title}</div>
+                <div className="gp-genre__title">{label}</div>
             </article>
         </Link>
     );
