@@ -4,5 +4,6 @@ import * as selectors from './selectors';
 import Games from './Games';
 export { actions, constants, selectors };
 export { default as reducer } from './reducer';
+export { default as GamesCreatePage } from './GamesCreatePage';
 
 export default Games;
