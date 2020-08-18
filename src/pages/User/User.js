@@ -27,7 +27,7 @@ function User({ match }) {
         return <p>{error.message}</p>;
     }
 
-    const { id, username, name, surname, photoURL, email } = data;
+    const { id, name, surname, photoURL } = data;
 
     const isUser = currentUser && currentUser.uid === id;
 
