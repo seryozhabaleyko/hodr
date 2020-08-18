@@ -53,13 +53,13 @@ export async function fetchNewsSingleApi(slug) {
     };
 }
 
-function mapSnapshot(snapshot) {
+/* function mapSnapshot(snapshot) {
     return snapshot.docs.map(mapDoc);
 }
 
 function mapRef(ref) {
     return ref.get().then(mapDoc);
-}
+} */
 
 function mapDoc(doc) {
     return {
