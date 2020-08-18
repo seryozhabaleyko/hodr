@@ -13,7 +13,6 @@ import Footer from './components/Footer';
 import NoMatch from './components/NoMatch';
 
 import Home from './pages/Home';
-import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Games, { GamesCreatePage } from './pages/Games';
@@ -22,7 +21,6 @@ import Game from './pages/Game';
 import News, { NewsCreate } from './pages/News';
 import Articles from './pages/Articles';
 import Reviews from './pages/Reviews';
-// import Admin from './pages/Admin';
 import User from './pages/User';
 import UserEdit from './pages/UserEdit';
 import NewsSingle from './pages/NewsSingle';
@@ -38,12 +36,12 @@ function App() {
                             <Home />
                         </Route>
 
-                        <PrivateRoute path="/profile" component={Profile} />
-
-                        <PrivateRoute path="/user/:username" component={User} exact />
+                        <PrivateRoute
+                            path={['/user/:username', '/profile/:username']}
+                            component={User}
+                            exact
+                        />
                         <PrivateRoute path="/user/:username/edit" component={UserEdit} exact />
-
-                        {/* <PrivateRoute path="/admin" component={Admin} /> */}
 
                         <Route path="/news" component={News} exact />
                         <Route path="/news/create" component={NewsCreate} exact />
@@ -67,7 +65,6 @@ function App() {
                             component={Articles}
                             exact
                         />
-                        {/* <Route path="/articles/:category" component={Articles} exact /> */}
 
                         <Route path="/reviews" component={Reviews} exact />
 
