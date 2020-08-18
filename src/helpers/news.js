@@ -1,8 +1,20 @@
 import { firestore } from '../services/firebase';
 
-export function fetchNewsApi() {
+export function fetchNewsApi(pageSize = 24) {
     return firestore
         .collection('news')
+        .orderBy('createdAt', 'desc')
+        .limit(pageSize)
+        .get()
+        .then((querySnapshot) => querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+}
+
+export function fetchNewsByCategoryApi(category) {
+    return firestore
+        .collection('news')
+        .where('categories', 'array-contains', category)
+        .orderBy('createdAt', 'desc')
+        .limit(24)
         .get()
         .then((querySnapshot) => querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 }
