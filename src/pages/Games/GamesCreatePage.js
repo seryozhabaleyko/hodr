@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { Input, Button, Select } from 'antd';
+import { Input, Button, Select, DatePicker } from 'antd';
 
 import { fetchPlatforms, fetchGenres } from './actions';
 import { getPlatforms, getGenres } from './selectors';
@@ -35,6 +35,9 @@ function GamesCreatePage() {
 function GamesCreateFrom({ onSubmit }) {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const [developer, setDeveloper] = useState('');
+    const [publisher, setPublisher] = useState('');
+    const [officialSite, setOfficialSite] = useState('');
     const [platforms, setPlatforms] = useState([]);
     const [genres, setGenres] = useState([]);
 
@@ -48,6 +51,12 @@ function GamesCreateFrom({ onSubmit }) {
             setTitle(value);
         } else if (name === 'body') {
             setBody(value);
+        } else if (name === 'developer') {
+            setDeveloper(value);
+        } else if (name === 'publisher') {
+            setPublisher(value);
+        } else if (name === 'officialSite') {
+            setOfficialSite(value);
         }
     };
 
@@ -57,6 +66,11 @@ function GamesCreateFrom({ onSubmit }) {
 
     const handleGenresChange = (value) => {
         setGenres(value);
+    };
+
+    const handleReleaseDateChange = (date, dateString) => {
+        console.log('date', date);
+        console.log('dateString', dateString);
     };
 
     const handleSubmit = (event) => {
@@ -88,6 +102,44 @@ function GamesCreateFrom({ onSubmit }) {
                     name="body"
                     value={body}
                     onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="form-label" htmlFor="developer">
+                    Разработчик
+                </label>
+                <Input id="developer" name="developer" value={developer} onChange={handleChange} />
+            </div>
+
+            <div className="form-group">
+                <label className="form-label" htmlFor="publisher">
+                    Издатель / Издатель в России
+                </label>
+                <Input id="publisher" name="publisher" value={publisher} onChange={handleChange} />
+            </div>
+
+            <div className="form-group">
+                <label className="form-label" htmlFor="officialSite">
+                    Официальный сайт
+                </label>
+                <Input
+                    id="officialSite"
+                    name="officialSite"
+                    value={officialSite}
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="form-group">
+                <label className="form-label" htmlFor="releaseDate">
+                    Дата выхода
+                </label>
+                <br />
+                <DatePicker
+                    style={{ width: '170px' }}
+                    placeholder="Select release date"
+                    onChange={handleReleaseDateChange}
                 />
             </div>
 
