@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const getGenres = (state) => {
+/* export const getGenres = (state) => {
     let data = [];
 
     function byField(field) {
@@ -16,7 +16,7 @@ export const getGenres = (state) => {
         data,
         error: state.games.genres.error,
     };
-};
+}; */
 
 const gamesLoading = (state) => state.games.loading;
 const gamesItems = (state) => state.games.data;
@@ -57,4 +57,18 @@ export const getCollectionNewGames = createSelector(
         items: items.slice(0, 15),
         error,
     }),
+);
+
+export const getPlatforms = createSelector(
+    (state) => state.games.platforms.loading,
+    (state) => state.games.platforms.data,
+    (state) => state.games.platforms.error,
+    (loading, data, error) => ({ loading, data, error }),
+);
+
+export const getGenres = createSelector(
+    (state) => state.games.genres.loading,
+    (state) => state.games.genres.data,
+    (state) => state.games.genres.error,
+    (loading, data, error) => ({ loading, data, error }),
 );
