@@ -1,4 +1,4 @@
-const genresList = [
+/* const genresList = [
     'Экшен',
     'Шутеры',
     'Ролевые',
@@ -12,4 +12,4 @@ const genresList = [
     'Спорт',
     'MMO',
     'Пазлы',
-];
+]; */
