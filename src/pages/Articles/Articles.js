@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { Select } from 'antd';
 
@@ -7,12 +8,13 @@ import { getArticles } from './selectors';
 
 import './Articles.scss';
 
-function Articles() {
+function Articles({ match }) {
+    const { category } = match.params;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchArticles());
-    }, [dispatch]);
+        dispatch(fetchArticles(category));
+    }, [dispatch, category]);
 
     return (
         <div className="container">
@@ -20,13 +22,14 @@ function Articles() {
                 <h1 className="articles-page__title">Статьи</h1>
                 <Filters />
             </header>
+
             <ArticlesList />
         </div>
     );
 }
 
 function ArticlesList() {
-    const { loading, data, error } = useSelector(getArticles, shallowEqual);
+    const { loading, data = [], error } = useSelector(getArticles, shallowEqual);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -37,7 +40,11 @@ function ArticlesList() {
     }
 
     if (data.length === 0) {
-        return <p>no content</p>;
+        return (
+            <p className="warning__message">
+                Упс! У нас нет таких товаров, попробуйте изменить условия поиска.
+            </p>
+        );
     }
 
     return (
@@ -63,22 +70,32 @@ function ArticleCard({ title, image }) {
 }
 
 function Filters() {
+    const history = useHistory();
+
     const options = [
         { value: 'all', label: 'Все' },
         { value: 'games', label: 'Игры' },
-        { value: 'movieAndSeries', label: 'Кино и сериалы' },
-        { value: 'comicsAndBooks', label: 'Комиксы и книги' },
+        { value: 'movie-and-series', label: 'Кино и сериалы' },
+        { value: 'comics-and-books', label: 'Комиксы и книги' },
         { value: 'internet', label: 'Интернет' },
         { value: 'technology', label: 'Технологии' },
         { value: 'cybersport', label: 'Киберспорт' },
         { value: 'life', label: 'Жизнь' },
         { value: 'music', label: 'Музыка' },
-        { value: 'specialProjects', label: 'Спецпроекты' },
+        { value: 'special-projects', label: 'Спецпроекты' },
         { value: 'auto', label: 'Авто' },
     ];
 
     const handleChange = (value) => {
-        console.log(`selected ${value}`);
+        let url;
+
+        if (value === 'all') {
+            url = '/articles';
+        } else {
+            url = `/articles/${value}`;
+        }
+
+        history.push(url);
     };
 
     return (
