@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { fetchGenres } from '../../actions';
@@ -7,14 +7,16 @@ import { getGenres } from '../../selectors';
 import Genre from './Genre';
 import GenreSkeleton from './GenreSkeleton';
 
-function GenresList({ fetchGenres, genres }) {
+function GenresList() {
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        fetchGenres();
-    }, [fetchGenres]);
+        dispatch(fetchGenres());
+    }, [dispatch]);
 
-    const { loading = true, data = [], error = null } = genres;
+    const { loading = true, data = [], error = null } = useSelector(getGenres, shallowEqual);
 
-    if (loading || (data.length === 0 && !error)) {
+    if (loading) {
         return (
             <div className="gp-genres__list gp-genres__grid">
                 {[...Array(6)].map((el, index) => (
@@ -31,7 +33,7 @@ function GenresList({ fetchGenres, genres }) {
     return (
         <Swiper spaceBetween={30} slidesPerView={7}>
             {data.map((genre) => (
-                <SwiperSlide key={genre.id}>
+                <SwiperSlide key={genre.value}>
                     <Genre {...genre} />
                 </SwiperSlide>
             ))}
@@ -39,12 +41,4 @@ function GenresList({ fetchGenres, genres }) {
     );
 }
 
-const mapStateToProps = (state) => ({
-    genres: getGenres(state),
-});
-
-const mapDispatchToProps = {
-    fetchGenres,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GenresList);
+export default GenresList;
