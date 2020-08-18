@@ -4,13 +4,13 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Slick from 'react-slick';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import GameCard from '../../components/GameCard';
 import { fetchGames } from './actions';
+import { getCollectionNewGames } from './selectors';
+import Genres from './components/Genres/Genres';
+import GameCard from '../../components/GameCard';
 
 import './Games.scss';
 import 'swiper/components/pagination/pagination.scss';
-import Genres from './components/Genres/Genres';
-import { getCollectionNewGames } from './selectors';
 
 function Games() {
     const dispatch = useDispatch();
