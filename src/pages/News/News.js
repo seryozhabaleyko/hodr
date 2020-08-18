@@ -1,15 +1,96 @@
-import React, { useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Select } from 'antd';
 
-import { fetchNews } from './actions';
+import { fetchNews, fetchNewsByCategory } from './actions';
 import { getNews } from './selectors';
+import { options } from './constants';
 import { NewsCardSkeleton } from './components/NewsCard';
 import NewsCard from '../../components/NewsCard';
 import useQuery from '../../hooks/useQuery';
 
 import './News.scss';
+
+function News() {
+    const dispatch = useDispatch();
+    const query = useQuery();
+    const category = query.get('category');
+    const currentPage = query.get('page');
+    console.log(currentPage);
+
+    useEffect(() => {
+        if (!category) {
+            dispatch(fetchNews());
+        } else {
+            dispatch(fetchNewsByCategory(category));
+        }
+    }, [dispatch, category]);
+
+    useEffect(() => {
+        if (currentPage) {
+            console.log(1);
+            dispatch({ type: 'NEWS/SET_CURRENT_PAGE', payload: currentPage });
+        }
+    }, [dispatch, currentPage]);
+
+    return (
+        <div className="container">
+            <header className="news-page__heading">
+                <h1 className="news-page__title">Новости</h1>
+                <Filters />
+            </header>
+
+            <NewsList />
+        </div>
+    );
+}
+
+function Filters() {
+    const history = useHistory();
+    const query = useQuery();
+    const category = query.get('category');
+    const [defaultValue, setDefaultValue] = useState('all');
+
+    const handleChange = (value) => {
+        let url;
+
+        if (value === 'all') {
+            url = '/news';
+        } else {
+            url = `/news?category=${value}`;
+        }
+
+        history.push(url);
+    };
+
+    const isDefaultValue = ((options, category) => {
+        const option = options.find((option) => option.value === category);
+
+        return option ? option.value : 'all';
+    })(options, category);
+
+    useEffect(() => {
+        setDefaultValue(isDefaultValue);
+    }, [isDefaultValue]);
+
+    console.log('defaultValue', defaultValue);
+
+    return (
+        <Select
+            defaultValue="all"
+            value={defaultValue}
+            style={{ minWidth: '160px' }}
+            onChange={handleChange}
+        >
+            {options.map(({ value, label }, i) => (
+                <Select.Option value={value} key={i}>
+                    {label}
+                </Select.Option>
+            ))}
+        </Select>
+    );
+}
 
 function NewsList() {
     const { loading, data, error } = useSelector(getNews, shallowEqual);
@@ -17,7 +98,7 @@ function NewsList() {
     if (loading) {
         return (
             <div className="news-page__list news-page__grid">
-                {[...Array(20)].map((el, index) => (
+                {[...Array(24)].map((el, index) => (
                     <NewsCardSkeleton key={index} />
                 ))}
             </div>
@@ -41,71 +122,6 @@ function NewsList() {
             {data.map((news) => (
                 <NewsCard {...news} key={news.id} />
             ))}
-        </div>
-    );
-}
-
-function Filters() {
-    const history = useHistory();
-
-    const options = [
-        { value: 'all', label: 'Все' },
-        { value: 'games', label: 'Игры' },
-        { value: 'movie-and-series', label: 'Кино и сериалы' },
-        { value: 'comics-and-books', label: 'Комиксы и книги' },
-        { value: 'internet', label: 'Интернет' },
-        { value: 'technology', label: 'Технологии' },
-        { value: 'cybersport', label: 'Киберспорт' },
-        { value: 'life', label: 'Жизнь' },
-        { value: 'music', label: 'Музыка' },
-        { value: 'special-projects', label: 'Спецпроекты' },
-        { value: 'auto', label: 'Авто' },
-    ];
-
-    const handleChange = (value) => {
-        let url;
-
-        if (value === 'all') {
-            url = '/news';
-        } else {
-            url = `/news?category=${value}`;
-        }
-
-        history.push(url);
-    };
-
-    return (
-        <Select defaultValue="all" style={{ minWidth: '160px' }} onChange={handleChange}>
-            {options.map(({ value, label }, i) => (
-                <Select.Option value={value} key={i}>
-                    {label}
-                </Select.Option>
-            ))}
-        </Select>
-    );
-}
-
-function News() {
-    const dispatch = useDispatch();
-    const query = useQuery();
-    const category = query.get('category');
-
-    useEffect(() => {
-        if (category === null) {
-            dispatch(fetchNews());
-        } else {
-            dispatch(fetchNews(category));
-        }
-    }, [dispatch, category]);
-
-    return (
-        <div className="container">
-            <header className="news-page__heading">
-                <h1 className="news-page__title">Новости</h1>
-                <Filters />
-            </header>
-
-            <NewsList />
         </div>
     );
 }
