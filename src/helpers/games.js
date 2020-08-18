@@ -49,7 +49,3 @@ export function addNewGenreApi(data) {
         });
     //.then((doc) => ({ ...doc.data(), id: doc.id }));
 }
-
-function subscribeGameApi() {
-    return firestore.collection('games').doc('subscribers');
-}
