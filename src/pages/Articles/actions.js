@@ -1,5 +1,13 @@
-import { FETCH_ARTICLES_SUCCESS, FETCH_ARTICLES_FAILURE } from './actionTypes';
+import {
+    FETCH_ARTICLES_REQUEST,
+    FETCH_ARTICLES_SUCCESS,
+    FETCH_ARTICLES_FAILURE,
+} from './actionTypes';
 import { fetchArticlesApi } from '../../helpers/articles';
+
+const fetchArticlesRequest = () => ({
+    type: FETCH_ARTICLES_REQUEST,
+});
 
 const fetchArticlesSuccess = (data) => ({
     type: FETCH_ARTICLES_SUCCESS,
@@ -12,6 +20,7 @@ const fetchArticlesFailure = (error) => ({
 });
 
 export const fetchArticles = () => async (dispatch) => {
+    dispatch(fetchArticlesRequest());
     try {
         const response = await fetchArticlesApi();
         dispatch(fetchArticlesSuccess(response));
