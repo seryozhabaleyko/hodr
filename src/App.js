@@ -16,7 +16,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import Games from './pages/Games';
+import Games, { GamesCreatePage } from './pages/Games';
 import GamesPopular from './pages/Games/GamesPopular';
 import Game from './pages/Game';
 import News, { NewsCreate } from './pages/News';
@@ -57,7 +57,8 @@ function App() {
                         <PublicRoute path="/login" component={Login} />
 
                         <Route path="/games" component={Games} exact />
-                        <Route path="/games/popular" component={GamesPopular} />
+                        <Route path="/games/create" component={GamesCreatePage} exact />
+                        <Route path="/games/popular" component={GamesPopular} exact />
 
                         <Route path="/game/:slug" component={Game} />
 
