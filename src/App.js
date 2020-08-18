@@ -61,12 +61,15 @@ function App() {
 
                         <Route path="/game/:slug" component={Game} />
 
-                        <Route path="/articles">
-                            <Articles />
-                        </Route>
-                        <Route path="/reviews">
-                            <Reviews />
-                        </Route>
+                        <Route
+                            path={['/articles', '/articles/:category']}
+                            component={Articles}
+                            exact
+                        />
+                        {/* <Route path="/articles/:category" component={Articles} exact /> */}
+
+                        <Route path="/reviews" component={Reviews} exact />
+
                         <Route path="*" component={NoMatch} />
                     </Switch>
                 </main>
