@@ -32,7 +32,7 @@ export function formatDate(date) {
     return d.slice(0, 3).join('.') + ' в ' + d.slice(3).join(':');
 }
 
-function formatDate3(date) {
+/* function formatDate3(date) {
     let dayOfMonth = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
@@ -59,3 +59,4 @@ function formatDate3(date) {
         return `${dayOfMonth}.${month}.${year} ${hour}:${minutes}`;
     }
 }
+ */
