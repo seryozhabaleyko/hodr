@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { Select } from 'antd';
 
 import { fetchArticles } from './actions';
 import { getArticles } from './selectors';
+import useQueryState from '../../hooks/useQueryState';
 
 import './Articles.scss';
 
@@ -70,7 +70,7 @@ function ArticleCard({ title, image }) {
 }
 
 function Filters() {
-    const history = useHistory();
+    const [category, setCategory] = useQueryState('category', 'all');
 
     const options = [
         { value: 'all', label: 'Все' },
@@ -86,26 +86,18 @@ function Filters() {
         { value: 'auto', label: 'Авто' },
     ];
 
-    const handleChange = (value) => {
-        let url;
-
-        if (value === 'all') {
-            url = '/articles';
-        } else {
-            url = `/articles/${value}`;
-        }
-
-        history.push(url);
+    const handleChange = (newValue) => {
+        setCategory(newValue);
     };
 
     return (
-        <Select defaultValue="all" style={{ minWidth: '160px' }} onChange={handleChange}>
-            {options.map(({ value, label }, i) => (
-                <Select.Option value={value} key={i}>
-                    {label}
-                </Select.Option>
-            ))}
-        </Select>
+        <Select
+            defaultValue="all"
+            options={options}
+            style={{ minWidth: '160px' }}
+            value={category}
+            onChange={handleChange}
+        />
     );
 }
 
