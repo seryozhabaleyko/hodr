@@ -72,3 +72,57 @@ export const getGenres = createSelector(
     (state) => state.games.genres.error,
     (loading, data, error) => ({ loading, data, error }),
 );
+
+export const getGamesByVisibilityFilters = (state, platforms, genres) => {};
+
+export const getVisibilityFilters = createSelector(
+    (state) => state.games.visibilityFilters.ratings,
+    (state) => state.games.visibilityFilters.years,
+    (ratings, years) => ({ ratings, years }),
+);
+
+const isYears = (item, years) => {
+    const yearsArray = years.split('-');
+
+    if (years === 'all') {
+        return true;
+    }
+
+    if (yearsArray.length === 1) {
+        return yearsArray[0] === item.createdAt;
+    }
+
+    if (yearsArray.length === 2) {
+        return yearsArray[0] >= item.createdAt && yearsArray[1] <= item.createdAt;
+    }
+
+    return true;
+};
+
+export const getVisibleMovies = createSelector(
+    gamesItems,
+    getVisibilityFilters,
+    (items, { ratings, years }) => {
+        if (!items || items.length === 0) return [];
+
+        const ratingsArray = ratings.split('-');
+
+        return items.filter((item) => {
+            const isRatings =
+                ratings === 'all' ||
+                (ratingsArray.length === 2 &&
+                    item.rating >= ratingsArray[0] &&
+                    item.rating <= ratingsArray[1]);
+
+            console.log('isYears()', isYears(item, years));
+
+            /* const isYears =
+                years === 'all' || yearsArray.length === 2
+                    ? yearsArray[0] >= new Date(item.createdAt).getFullYear() &&
+                      yearsArray[1] <= new Date(item.createdAt).getFullYear()
+                    : new Date(item.timestamp).getFullYear() == yearsArray[0]; */
+
+            return isRatings;
+        });
+    },
+);
