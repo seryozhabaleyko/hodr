@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Select } from 'antd';
 
@@ -9,27 +8,26 @@ import { options } from './constants';
 import { NewsCardSkeleton } from './components/NewsCard';
 import NewsCard from '../../components/NewsCard';
 import useQuery from '../../hooks/useQuery';
+import useQueryState from '../../hooks/useQueryState';
 
 import './News.scss';
 
 function News() {
     const dispatch = useDispatch();
     const query = useQuery();
-    const category = query.get('category');
+    const isCurrentCategory = query.get('category');
     const currentPage = query.get('page');
-    console.log(currentPage);
 
     useEffect(() => {
-        if (!category) {
+        if (!isCurrentCategory) {
             dispatch(fetchNews());
         } else {
-            dispatch(fetchNewsByCategory(category));
+            dispatch(fetchNewsByCategory(isCurrentCategory));
         }
-    }, [dispatch, category]);
+    }, [dispatch, isCurrentCategory]);
 
     useEffect(() => {
         if (currentPage) {
-            console.log(1);
             dispatch({ type: 'NEWS/SET_CURRENT_PAGE', payload: currentPage });
         }
     }, [dispatch, currentPage]);
@@ -47,48 +45,20 @@ function News() {
 }
 
 function Filters() {
-    const history = useHistory();
-    const query = useQuery();
-    const category = query.get('category');
-    const [defaultValue, setDefaultValue] = useState('all');
+    const [category, setCategory] = useQueryState('category', 'all');
 
-    const handleChange = (value) => {
-        let url;
-
-        if (value === 'all') {
-            url = '/news';
-        } else {
-            url = `/news?category=${value}`;
-        }
-
-        history.push(url);
+    const handleSelectChange = (newValue) => {
+        setCategory(newValue);
     };
-
-    const isDefaultValue = ((options, category) => {
-        const option = options.find((option) => option.value === category);
-
-        return option ? option.value : 'all';
-    })(options, category);
-
-    useEffect(() => {
-        setDefaultValue(isDefaultValue);
-    }, [isDefaultValue]);
-
-    console.log('defaultValue', defaultValue);
 
     return (
         <Select
+            options={options}
             defaultValue="all"
-            value={defaultValue}
             style={{ minWidth: '160px' }}
-            onChange={handleChange}
-        >
-            {options.map(({ value, label }, i) => (
-                <Select.Option value={value} key={i}>
-                    {label}
-                </Select.Option>
-            ))}
-        </Select>
+            value={category}
+            onChange={handleSelectChange}
+        />
     );
 }
 
