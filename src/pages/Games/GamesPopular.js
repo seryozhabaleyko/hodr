@@ -1,33 +1,57 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { useQueryState } from 'react-router-use-location-state';
-// import queryString from 'query-string';
 import { Button, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 
 import GameCard, { GameCardSkeleton } from '../../components/GameCard';
-import { fetchGames } from './actions';
+import { fetchGames, setYearsVisibilityFilter, setRatingsVisibilityFilter } from './actions';
 import { getPopularGames } from './selectors';
 import useQuery from '../../hooks/useQuery';
+import useQueryState from '../../hooks/useQueryState';
 
 import './GamesPopular.scss';
 
 function GamesPopular() {
-    const [ratings, setRatings] = useQueryState('ratings', 'all');
-    const [years, setYears] = useQueryState('years', 'all');
     const dispatch = useDispatch();
     const query = useQuery();
 
-    console.log(query.get('name'));
-    console.log(query.get('genres'));
-
     useEffect(() => {
         document.title = 'Популярные игры - Hodr - компьютерные игры';
+
+        dispatch(fetchGames());
+
+        const ratings = query.get('ratings');
+        const years = query.get('years');
+
+        if (ratings) {
+            dispatch(setRatingsVisibilityFilter(ratings));
+        }
+
+        if (years) {
+            dispatch(setYearsVisibilityFilter(years));
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        dispatch(fetchGames());
-    }, [dispatch]);
+    return (
+        <div className="container">
+            <header className="games-page-popular__heading">
+                <h1 className="games-page-popular__title">Популярные игры</h1>
+                <Button icon={<FilterOutlined />}>Фильтры</Button>
+            </header>
+
+            <FilterPanel />
+
+            <GamesPopularList />
+        </div>
+    );
+}
+
+function FilterPanel() {
+    const [ratings, setRatings] = useQueryState('ratings', 'all');
+    const [years, setYears] = useQueryState('years', 'all');
+    const dispatch = useDispatch();
 
     const platforms = [
         { label: 'Все платформы', value: 'all' },
@@ -92,55 +116,34 @@ function GamesPopular() {
         { label: '2021', value: '2021' },
     ];
 
-    const handleSelect = (value, props2) => {
-        setYears(value);
-        console.log('1', value);
-        console.log('2', props2);
-    };
-
-    const handleRatingsChange = (value, option) => {
+    const handleRatingsChange = (value) => {
         setRatings(value);
-
-        console.log('value', value);
-        console.log('option', option);
+        dispatch(setRatingsVisibilityFilter(value));
     };
 
-    const handleYearsChange = (value, option) => {
-        setYears(value);
+    const handleYearsChange = (newValue) => {
+        setYears(newValue);
+        dispatch(setYearsVisibilityFilter(newValue));
     };
 
     return (
-        <div className="container">
-            <header className="games-page-popular__heading">
-                <h1 className="games-page-popular__title">Популярные игры</h1>
-                <Button HtmlType="button" icon={<FilterOutlined />}>
-                    Фильтры
-                </Button>
-            </header>
-
-            <div className="games-page-popular__filters">
-                <Select
-                    defaultValue="all"
-                    options={platforms}
-                    style={{ minWidth: 180 }}
-                    onSelect={handleSelect}
-                />
-                <Select defaultValue="all" options={optionsGenres} style={{ minWidth: 180 }} />
-                <Select
-                    defaultValue="all"
-                    options={optionsRatings}
-                    style={{ minWidth: 180 }}
-                    onChange={handleRatingsChange}
-                />
-                <Select
-                    defaultValue="all"
-                    options={optionsYears}
-                    style={{ minWidth: 180 }}
-                    onChange={handleYearsChange}
-                />
-            </div>
-
-            <GamesPopularList />
+        <div className="games-page-popular__filters">
+            <Select defaultValue="all" options={platforms} style={{ minWidth: 180 }} />
+            <Select defaultValue="all" options={optionsGenres} style={{ minWidth: 180 }} />
+            <Select
+                defaultValue="all"
+                options={optionsRatings}
+                style={{ minWidth: 180 }}
+                value={ratings}
+                onChange={handleRatingsChange}
+            />
+            <Select
+                defaultValue="all"
+                options={optionsYears}
+                style={{ minWidth: 180 }}
+                value={years}
+                onChange={handleYearsChange}
+            />
         </div>
     );
 }
