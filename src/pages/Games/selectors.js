@@ -99,7 +99,7 @@ const isYears = (item, years) => {
     return true;
 };
 
-export const getVisibleMovies = createSelector(
+export const getVisibleGames = createSelector(
     gamesItems,
     getVisibilityFilters,
     (items, { ratings, years }) => {
@@ -108,6 +108,8 @@ export const getVisibleMovies = createSelector(
         const ratingsArray = ratings.split('-');
 
         return items.filter((item) => {
+            console.log(item.releaseDate);
+
             const isRatings =
                 ratings === 'all' ||
                 (ratingsArray.length === 2 &&
