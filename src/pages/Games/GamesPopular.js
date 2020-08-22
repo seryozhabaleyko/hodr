@@ -5,7 +5,7 @@ import { FilterOutlined } from '@ant-design/icons';
 
 import GameCard, { GameCardSkeleton } from '../../components/GameCard';
 import { fetchGames, setYearsVisibilityFilter, setRatingsVisibilityFilter } from './actions';
-import { getPopularGames } from './selectors';
+import { getPopularGames, getVisibleGames } from './selectors';
 import useQuery from '../../hooks/useQuery';
 import useQueryState from '../../hooks/useQueryState';
 
@@ -150,6 +150,8 @@ function FilterPanel() {
 
 function GamesPopularList() {
     const { loading, items = [], error } = useSelector(getPopularGames, shallowEqual);
+    const games = useSelector(getVisibleGames, shallowEqual);
+    console.log('games list:', games);
 
     if (loading) {
         return (
