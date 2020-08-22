@@ -736,16 +736,16 @@ body,
 /* Arrows */
 .slick-prev,
 .slick-next {
-    font-size: 0;
-    line-height: 0;
+    font-size: 50px;
+    line-height: 50px;
 
     position: absolute;
     top: 50%;
 
     display: block;
 
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 60px;
     padding: 0;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
@@ -753,69 +753,32 @@ body,
 
     cursor: pointer;
 
-    color: transparent;
+    color: rgba(0, 0, 0, 0.72);
     border: none;
     outline: none;
     background: transparent;
 }
 .slick-prev:hover,
-.slick-prev:focus,
-.slick-next:hover,
-.slick-next:focus {
-    color: transparent;
+.slick-next:hover {
+    color: #000;
     outline: none;
     background: transparent;
 }
-.slick-prev:hover:before,
-.slick-prev:focus:before,
-.slick-next:hover:before,
-.slick-next:focus:before {
+.slick-prev:hover,
+.slick-next:hover {
     opacity: 1;
 }
-.slick-prev.slick-disabled:before,
-.slick-next.slick-disabled:before {
+.slick-prev.slick-disabled,
+.slick-next.slick-disabled {
     opacity: 0.25;
 }
 
-.slick-prev:before,
-.slick-next:before {
-    font-family: 'slick';
-    font-size: 20px;
-    line-height: 1;
-
-    opacity: 0.75;
-    color: red;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 .slick-prev {
-    left: -25px;
-}
-[dir='rtl'] .slick-prev {
-    right: -25px;
-    left: auto;
-}
-.slick-prev:before {
-    content: 'в†ђ';
-}
-[dir='rtl'] .slick-prev:before {
-    content: 'в†’';
+    left: -50px;
 }
 
 .slick-next {
-    right: -25px;
-}
-[dir='rtl'] .slick-next {
-    right: auto;
-    left: -25px;
-}
-.slick-next:before {
-    content: 'в†’';
-}
-[dir='rtl'] .slick-next:before {
-    content: 'в†ђ';
+    right: -50px;
 }
 
 /* Dots */
