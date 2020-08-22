@@ -11,6 +11,15 @@ import GameCard from '../../components/GameCard';
 
 import './Games.scss';
 import 'swiper/components/pagination/pagination.scss';
+import GamesCollection from './components/GamesCollection/GamesCollection';
+
+const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 7,
+    slidesToScroll: 1,
+};
 
 function Games() {
     const dispatch = useDispatch();
@@ -22,14 +31,6 @@ function Games() {
     const { items = [] } = useSelector(getCollectionNewGames, shallowEqual);
 
     console.log('items', items);
-
-    const settings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 7,
-        slidesToScroll: 1,
-    };
 
     return (
         <div className="container">
@@ -75,7 +76,7 @@ function Games() {
                         <GameCard key={index} />
                     ))}
                 </div> */}
-                <Swiper spaceBetween={30} slidesPerView={6}>
+                <Swiper spaceBetween={30} slidesPerView={7}>
                     {[...Array(10)].map((el, index) => (
                         <SwiperSlide key={index}>
                             <GameCard />
@@ -83,6 +84,10 @@ function Games() {
                     ))}
                 </Swiper>
             </section>
+
+            <GamesCollection title="Лучшие игры про зомби" />
+
+            <GamesCollection title="Лучшие военные игры" />
         </div>
     );
 }
