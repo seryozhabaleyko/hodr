@@ -4,8 +4,8 @@ import { Button, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 
 import GameCard, { GameCardSkeleton } from '../../components/GameCard';
-import { fetchGames, setYearsVisibilityFilter, setRatingsVisibilityFilter } from './actions';
-import { getPopularGames, getVisibleGames } from './selectors';
+import { fetchGames, setFilterByRating, setFilterByYear } from './actions';
+import { getPopularGames, getFilteredGames } from './selectors';
 import useQuery from '../../hooks/useQuery';
 import useQueryState from '../../hooks/useQueryState';
 
@@ -24,11 +24,11 @@ function GamesPopular() {
         const years = query.get('years');
 
         if (ratings) {
-            dispatch(setRatingsVisibilityFilter(ratings));
+            dispatch(setFilterByRating(ratings));
         }
 
         if (years) {
-            dispatch(setYearsVisibilityFilter(years));
+            dispatch(setFilterByYear(years));
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,12 +118,12 @@ function FilterPanel() {
 
     const handleRatingsChange = (value) => {
         setRatings(value);
-        dispatch(setRatingsVisibilityFilter(value));
+        dispatch(setFilterByRating(value));
     };
 
     const handleYearsChange = (newValue) => {
         setYears(newValue);
-        dispatch(setYearsVisibilityFilter(newValue));
+        dispatch(setFilterByYear(newValue));
     };
 
     return (
@@ -150,8 +150,11 @@ function FilterPanel() {
 
 function GamesPopularList() {
     const { loading, items = [], error } = useSelector(getPopularGames, shallowEqual);
-    const games = useSelector(getVisibleGames, shallowEqual);
+    const games = useSelector(getFilteredGames, shallowEqual);
     console.log('games list:', games);
+    console.log('games list:', typeof games[1]?.releaseDate.toDate().getFullYear());
+    console.log('games list:', games[1]?.releaseDate.toMillis());
+    console.log('games list:', games[1]?.releaseDate.toString());
 
     if (loading) {
         return (
