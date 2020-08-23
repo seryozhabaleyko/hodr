@@ -18,18 +18,18 @@ import { createSelector } from 'reselect';
     };
 }; */
 
-const gamesLoading = (state) => state.games.loading;
-const gamesItems = (state) => state.games.data;
-const gamesError = (state) => state.games.error;
+const gamesLoadingSelector = (state) => state.games.loading;
+const gamesItemsSelector = (state) => state.games.data;
+const gamesErrorSelectorSelector = (state) => state.games.error;
 
-const sortByDateGamesItems = createSelector(gamesItems, (items) =>
+const sortByDateGamesItems = createSelector(gamesItemsSelector, (items) =>
     items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
 );
 
 export const getNewGames = createSelector(
-    gamesLoading,
+    gamesLoadingSelector,
     sortByDateGamesItems,
-    gamesError,
+    gamesErrorSelectorSelector,
     (loading, items, error) => ({
         loading,
         items,
@@ -38,9 +38,9 @@ export const getNewGames = createSelector(
 );
 
 export const getPopularGames = createSelector(
-    gamesLoading,
+    gamesLoadingSelector,
     sortByDateGamesItems,
-    gamesError,
+    gamesErrorSelectorSelector,
     (loading, items, error) => ({
         loading,
         items,
@@ -49,9 +49,9 @@ export const getPopularGames = createSelector(
 );
 
 export const getCollectionNewGames = createSelector(
-    gamesLoading,
+    gamesLoadingSelector,
     sortByDateGamesItems,
-    gamesError,
+    gamesErrorSelectorSelector,
     (loading, items, error) => ({
         loading,
         items: items.slice(0, 15),
@@ -73,58 +73,54 @@ export const getGenres = createSelector(
     (loading, data, error) => ({ loading, data, error }),
 );
 
-export const getGamesByVisibilityFilters = (state, platforms, genres) => {};
-
-export const getVisibilityFilters = createSelector(
-    (state) => state.games.visibilityFilters.ratings,
-    (state) => state.games.visibilityFilters.years,
-    (ratings, years) => ({ ratings, years }),
-);
-
-const isYears = (item, years) => {
-    const yearsArray = years.split('-');
-
-    if (years === 'all') {
+const isYears = (itemYear, filterByYear) => {
+    if (filterByYear === 'all') {
         return true;
     }
 
+    const yearsArray = filterByYear.split('-');
+
     if (yearsArray.length === 1) {
-        return yearsArray[0] === item.createdAt;
+        return itemYear === parseInt(yearsArray[0], 10);
     }
 
     if (yearsArray.length === 2) {
-        return yearsArray[0] >= item.createdAt && yearsArray[1] <= item.createdAt;
+        return itemYear >= parseInt(yearsArray[0], 10) && itemYear <= parseInt(yearsArray[1], 10);
     }
 
-    return true;
+    return false;
 };
 
-export const getVisibleGames = createSelector(
-    gamesItems,
-    getVisibilityFilters,
-    (items, { ratings, years }) => {
+function isRating(itemRating, filterByRating) {
+    if (filterByRating === 'all') {
+        return true;
+    }
+
+    const ratingsArray = filterByRating.split('-');
+    const minRating = parseInt(ratingsArray[0], 10);
+    const maxRating = parseInt(ratingsArray[1], 10);
+
+    if (ratingsArray.length === 2) {
+        return itemRating >= minRating && itemRating <= maxRating;
+    }
+
+    return false;
+}
+
+const gamesFilterByRatingSelector = (state) => state.games.filterByRating;
+const gamesFilterByYearSelector = (state) => state.games.filterByYear;
+
+export const getFilteredGames = createSelector(
+    gamesItemsSelector,
+    gamesFilterByRatingSelector,
+    gamesFilterByYearSelector,
+    (items, filterByRating, filterByYear) => {
         if (!items || items.length === 0) return [];
 
-        const ratingsArray = ratings.split('-');
-
-        return items.filter((item) => {
-            console.log(item.releaseDate);
-
-            const isRatings =
-                ratings === 'all' ||
-                (ratingsArray.length === 2 &&
-                    item.rating >= ratingsArray[0] &&
-                    item.rating <= ratingsArray[1]);
-
-            console.log('isYears()', isYears(item, years));
-
-            /* const isYears =
-                years === 'all' || yearsArray.length === 2
-                    ? yearsArray[0] >= new Date(item.createdAt).getFullYear() &&
-                      yearsArray[1] <= new Date(item.createdAt).getFullYear()
-                    : new Date(item.timestamp).getFullYear() == yearsArray[0]; */
-
-            return isRatings;
-        });
+        return items.filter(
+            (item) =>
+                isRating(item.rating, filterByRating) &&
+                isYears(item.releaseDate.toDate().getFullYear(), filterByYear),
+        );
     },
 );
