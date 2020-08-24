@@ -7,7 +7,11 @@ function GameCard({
     title = 'Grand Theft Auto 5',
     slug,
     photoUrl = 'https://thumbs.dfs.ivi.ru/storage33/contents/d/1/a1fb63b65c640020a8f00d2a31afb6.jpg/234x360/',
+    developer = 'developer',
+    releaseDate,
 }) {
+    const releaseYear = releaseDate?.toDate()?.getFullYear();
+
     return (
         <article className="game-card">
             <Link to={`/game/${slug}`}>
@@ -16,8 +20,8 @@ function GameCard({
                 </figure>
                 <div className="game-card__content">
                     <h2 className="game-card__title">{title}</h2>
-                    <span className="game-card__developer">Rockstar Games,</span>
-                    <span className="game-card__date"> 2020</span>
+                    <span className="game-card__developer">{developer},</span>{' '}
+                    <span className="game-card__date">{releaseYear || 'year'}</span>
                 </div>
             </Link>
         </article>
