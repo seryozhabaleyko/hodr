@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Input, Button, Select, DatePicker } from 'antd';
 import slugify from 'slugify';
 // import moment from 'moment';
+import { uploadImage } from '../../helpers/news';
 
 import { cerateNews } from './actions';
 import { options } from './constants';
@@ -61,11 +62,17 @@ function CreateNewNews() {
         };
 
         dispatch(cerateNews(news));
+    };
 
-        setTitle('');
-        setSlug('');
-        setSummery('');
-        setBody('');
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            const response = await uploadImage(file);
+
+            console.log('image', file);
+            console.log('response', response);
+        }
     };
 
     const isDisabled = !title || !summery || !body || !categories.length;
@@ -77,6 +84,10 @@ function CreateNewNews() {
             </header>
 
             <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <input type="file" onChange={handleFileChange} />
+                </div>
+
                 <div className="form-group">
                     <label className="form-label" htmlFor="title">
                         Название новости
