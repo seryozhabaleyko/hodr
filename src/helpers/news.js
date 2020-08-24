@@ -1,4 +1,4 @@
-import { firestore } from '../services/firebase';
+import { firestore, storage } from '../services/firebase';
 
 export function fetchNewsApi(pageSize = 24) {
     return firestore
@@ -51,6 +51,13 @@ export async function fetchNewsSingleApi(slug) {
             username: user.username,
         },
     };
+}
+
+export async function uploadImage(file) {
+    const storageRef = storage.ref();
+    const fileRef = storageRef.child(file.name);
+    await fileRef.put(file);
+    return await fileRef.getDownloadURL();
 }
 
 /* function mapSnapshot(snapshot) {
