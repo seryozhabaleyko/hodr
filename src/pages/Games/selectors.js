@@ -30,22 +30,14 @@ export const getNewGames = createSelector(
     gamesLoadingSelector,
     sortByDateGamesItems,
     gamesErrorSelectorSelector,
-    (loading, items, error) => ({
-        loading,
-        items,
-        error,
-    }),
+    (loading, items, error) => ({ loading, items, error }),
 );
 
 export const getPopularGames = createSelector(
     gamesLoadingSelector,
     sortByDateGamesItems,
     gamesErrorSelectorSelector,
-    (loading, items, error) => ({
-        loading,
-        items,
-        error,
-    }),
+    (loading, items, error) => ({ loading, items, error }),
 );
 
 export const getCollectionNewGames = createSelector(
@@ -123,4 +115,11 @@ export const getFilteredGames = createSelector(
                 isYears(item.releaseDate.toDate().getFullYear(), filterByYear),
         );
     },
+);
+
+export const getGames = createSelector(
+    gamesLoadingSelector,
+    getFilteredGames,
+    gamesErrorSelectorSelector,
+    (loading, items, error) => ({ loading, items, error }),
 );
