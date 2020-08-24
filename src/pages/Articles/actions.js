@@ -3,7 +3,7 @@ import {
     FETCH_ARTICLES_SUCCESS,
     FETCH_ARTICLES_FAILURE,
 } from './actionTypes';
-import { fetchArticlesApi } from '../../helpers/articles';
+import { fetchArticlesApi } from '../../helpers/api';
 
 const fetchArticlesRequest = () => ({
     type: FETCH_ARTICLES_REQUEST,
