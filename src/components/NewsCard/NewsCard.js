@@ -9,10 +9,12 @@ import './NewsCard.scss';
 
 moment.locale('ru');
 
-function NewsCard({ title, slug, createdAt }) {
+function NewsCard({ title, slug, photoUrl, createdAt }) {
     return (
         <article className="news-card">
-            <div className="news-card__image"></div>
+            <div className="news-card__image">
+                <img src={photoUrl} alt={title} />
+            </div>
             <div className="news-card__content">
                 <Link to={`news/${slug}`}>
                     <h3 className="news-card__title">{title}</h3>
