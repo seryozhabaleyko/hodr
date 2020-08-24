@@ -1,16 +1,16 @@
 import { createSelector } from 'reselect';
 
-const articlesLoading = (state) => state.articles.loading;
-const articlesItems = (state) => state.articles.data;
-const articlesError = (state) => state.articles.error;
+const articlesLoadingSelector = (state) => state.articles.loading;
+const articlesItemsSelector = (state) => state.articles.data;
+const articlesErrorSelector = (state) => state.articles.error;
 
-const sortByDateArticlesItems = createSelector(articlesItems, (items) =>
+/* const sortByDateArticlesItems = createSelector(articlesItemsSelector, (items) =>
     items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
-);
+); */
 
 export const getArticles = createSelector(
-    articlesLoading,
-    sortByDateArticlesItems,
-    articlesError,
+    articlesLoadingSelector,
+    articlesItemsSelector,
+    articlesErrorSelector,
     (loading, items, error) => ({ loading, items, error }),
 );
