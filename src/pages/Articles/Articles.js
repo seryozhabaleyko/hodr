@@ -29,7 +29,7 @@ function Articles({ match }) {
 }
 
 function ArticlesList() {
-    const { loading, data = [], error } = useSelector(getArticles, shallowEqual);
+    const { loading, items = [], error } = useSelector(getArticles, shallowEqual);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -39,7 +39,7 @@ function ArticlesList() {
         return <p>Error...</p>;
     }
 
-    if (data.length === 0) {
+    if (items.length === 0) {
         return (
             <p className="warning__message">
                 Упс! У нас нет таких товаров, попробуйте изменить условия поиска.
@@ -47,9 +47,11 @@ function ArticlesList() {
         );
     }
 
+    console.log('articles:', items);
+
     return (
         <div className="articles-page__list articles-page__grid">
-            {data.map((article) => (
+            {items.map((article) => (
                 <ArticleCard {...article} key={article.id} />
             ))}
         </div>
