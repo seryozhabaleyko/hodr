@@ -1,5 +1,5 @@
 import { FETCH_GAME_SUCCESS, FETCH_GAME_FAILURE } from './actionTypes';
-import { fetchGameApi } from '../../helpers/games';
+import { fetchGameApi } from '../../helpers/api';
 
 const fetchGameSuccess = (data) => ({
     type: FETCH_GAME_SUCCESS,
