@@ -11,9 +11,11 @@ import useQueryState from '../../hooks/useQueryState';
 
 import './GamesPopular.scss';
 
-function GamesPopular() {
+function GamesPopular({ match }) {
     const dispatch = useDispatch();
     const query = useQuery();
+
+    console.log(match);
 
     useEffect(() => {
         document.title = 'Популярные игры - Hodr - компьютерные игры';
