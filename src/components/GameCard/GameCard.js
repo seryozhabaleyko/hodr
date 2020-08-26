@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Badge } from 'antd';
+import moment from 'moment';
 
 import './GameCard.scss';
+
+moment.locale('ru');
 
 function GameCard({
     title = 'Grand Theft Auto 5',
@@ -10,12 +14,35 @@ function GameCard({
     developer = 'developer',
     releaseDate,
 }) {
+    const releaseDateNow = releaseDate?.toMillis();
+
     const releaseYear = releaseDate?.toDate()?.getFullYear();
+
+    const isSoon = releaseDateNow > Date.now();
+
+    const numberOfDaysPassed = moment().diff(moment(releaseDateNow), 'days');
+
+    const isNovelty = numberOfDaysPassed >= 0 && numberOfDaysPassed <= 2;
 
     return (
         <article className="game-card">
             <Link to={`/game/${slug}`}>
                 <figure className="game-card__thumbnail">
+                    {isSoon && (
+                        <Badge.Ribbon
+                            className="thumbnail__ribbon"
+                            placement="start"
+                            text="Скоро"
+                        />
+                    )}
+                    {isNovelty && (
+                        <Badge.Ribbon
+                            className="thumbnail__ribbon"
+                            placement="start"
+                            text="Новинка"
+                            color="green"
+                        />
+                    )}
                     <img src={photoUrl} alt="The Elder Scrolls 5: Skyrim" />
                 </figure>
                 <div className="game-card__content">
