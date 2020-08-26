@@ -66,7 +66,9 @@ function GamePage({ match }) {
                                 <h1 className="gp-game__title">
                                     {data.title || 'Star Wars Jedi: Fallen Order'}
                                 </h1>
-                                <span className="gp-game__developer">Respawn Entertainment</span>
+                                <span className="gp-game__developer">
+                                    {data.developer || 'Respawn Entertainment'}
+                                </span>
                             </div>
                         </div>
                         <button className="gp-game__subscribe btn btn-subscribe" type="button">
