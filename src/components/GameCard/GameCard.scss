@@ -29,10 +29,7 @@
             left: 0;
             height: 100%;
             width: 100%;
-            border-radius: inherit;
             object-fit: cover;
-            z-index: 1;
-            opacity: 1;
         }
     }
 
@@ -44,7 +41,7 @@
         margin: 0;
         line-height: 2rem;
         font-size: 1.4rem;
-        color: #030303;
+        color: #000;
 
         overflow: hidden;
         white-space: nowrap;
@@ -65,7 +62,7 @@
         white-space: nowrap;
         text-overflow: ellipsis;
 
-        color: #968acf;
+        color: rgba(0, 0, 0, 0.65);
     }
 
     &:hover {
@@ -85,4 +82,8 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
+}
+
+.thumbnail__ribbon {
+    z-index: 2;
 }
