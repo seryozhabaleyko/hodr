@@ -9,9 +9,21 @@ export function addNewGameApi(data) {
         });
 }
 
-export function fetchGamesApi() {
-    return firestore
-        .collection('games')
+export function fetchGamesApi({ platform, genre }) {
+    const gamesRef = firestore.collection('games');
+    let query = gamesRef;
+
+    if (platform) {
+        query = gamesRef.where('platforms', 'array-contains', platform);
+    } else if (genre) {
+        query = gamesRef.where('genres', 'array-contains', genre);
+    } else if (platform && genre) {
+        query = gamesRef
+            .where('platforms', 'array-contains', platform)
+            .where('genres', 'array-contains', genre);
+    }
+
+    return query
         .orderBy('releaseDate', 'desc')
         .get()
         .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
