@@ -4,23 +4,25 @@ import { Button, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 
 import GameCard, { GameCardSkeleton } from '../../components/GameCard';
-import { fetchGames, setFilterByRating, setFilterByYear } from './actions';
+import { fetchGames, setFilterByRating, setFilterByYear, setFilterByGenre } from './actions';
 import { getGames } from './selectors';
 import useQuery from '../../hooks/useQuery';
 import useQueryState from '../../hooks/useQueryState';
 
 import './GamesPopular.scss';
 
-function GamesPopular({ match }) {
+function GamesPopular() {
     const dispatch = useDispatch();
     const query = useQuery();
+    const genre = query.get('genre');
+    const platform = query.get('platform');
 
-    console.log(match);
+    useEffect(() => {
+        dispatch(fetchGames({ platform, genre }));
+    }, [dispatch, platform, genre]);
 
     useEffect(() => {
         document.title = 'Популярные игры - Hodr - компьютерные игры';
-
-        dispatch(fetchGames());
 
         const ratings = query.get('ratings');
         const years = query.get('years');
@@ -51,6 +53,8 @@ function GamesPopular({ match }) {
 }
 
 function FilterPanel() {
+    const [platform, setPlatform] = useQueryState('platform', 'all');
+    const [genre, setGenre] = useQueryState('genre', 'all');
     const [ratings, setRatings] = useQueryState('ratings', 'all');
     const [years, setYears] = useQueryState('years', 'all');
     const dispatch = useDispatch();
@@ -58,25 +62,28 @@ function FilterPanel() {
     const platforms = [
         { label: 'Все платформы', value: 'all' },
         { label: 'PC', value: 'pc' },
-        { label: 'Google Stadia', value: 'googleStadia' },
-        { label: 'Xbox Series X', value: 'xboxSeriesX' },
-        { label: 'PlayStation 4', value: 'playStation4' },
-        { label: 'PlayStation 3', value: 'playStation3' },
-        { label: 'PlayStation 5', value: 'playStation5' },
-        { label: 'Nintendo Switch', value: 'nintendoSwitch' },
+        { label: 'Google Stadia', value: 'google-stadia' },
+        { label: 'Xbox Series X', value: 'xbox-series-X' },
+        { label: 'PlayStation 4', value: 'play-station-4' },
+        { label: 'PlayStation 3', value: 'play-station-3' },
+        { label: 'PlayStation 5', value: 'play-station-5' },
+        { label: 'Nintendo Switch', value: 'nintendo-switch' },
         { label: 'iOS', value: 'iOS' },
         { label: 'Mac', value: 'mac' },
-        { label: 'PlayStation Vita', value: 'playStationVita' },
-        { label: 'Nintendo 3DS', value: 'nintendo3DS' },
-        { label: 'PlayStation 2', value: 'playStation2' },
+        { label: 'PlayStation Vita', value: 'play-station-vita' },
+        { label: 'Nintendo 3DS', value: 'nintendo-3DS' },
+        { label: 'PlayStation 2', value: 'play-station-2' },
         { label: 'Xbox', value: 'xbox' },
-        { label: 'PlayStation Portable (PSP)', value: 'playStationPortable(PSP)' },
-        { label: 'Nintendo DS', value: 'nintendoDS' },
-        { label: 'Nintendo Entertainment System (NES)', value: 'nintendoEntertainmentSystem(NES)' },
-        { label: 'Nintendo GameCube', value: 'nintendoGameCube' },
-        { label: 'GameCube', value: 'gameCube' },
-        { label: 'Nintendo 64', value: 'nintendo64' },
-        { label: 'Super Nintendo (SNES)', value: 'superNintendo(SNES)' },
+        { label: 'PlayStation Portable (PSP)', value: 'play-station-portable-PSP' },
+        { label: 'Nintendo DS', value: 'nintendo-DS' },
+        {
+            label: 'Nintendo Entertainment System (NES)',
+            value: 'nintendo-entertainment-system-NES',
+        },
+        { label: 'Nintendo GameCube', value: 'nintendo-game-cube' },
+        { label: 'GameCube', value: 'game-cube' },
+        { label: 'Nintendo 64', value: 'nintendo-64' },
+        { label: 'Super Nintendo (SNES)', value: 'super-nintendo-SNES' },
     ];
 
     const optionsGenres = [
@@ -118,6 +125,15 @@ function FilterPanel() {
         { label: '2021', value: '2021' },
     ];
 
+    const handlePlatformsChange = (value) => {
+        setPlatform(value);
+    };
+
+    const handleGenresChange = (value) => {
+        setGenre(value);
+        dispatch(setFilterByGenre(value));
+    };
+
     const handleRatingsChange = (value) => {
         setRatings(value);
         dispatch(setFilterByRating(value));
@@ -130,8 +146,20 @@ function FilterPanel() {
 
     return (
         <div className="games-page-popular__filters">
-            <Select defaultValue="all" options={platforms} style={{ minWidth: 180 }} />
-            <Select defaultValue="all" options={optionsGenres} style={{ minWidth: 180 }} />
+            <Select
+                defaultValue="all"
+                options={platforms}
+                style={{ minWidth: 180 }}
+                value={platform}
+                onChange={handlePlatformsChange}
+            />
+            <Select
+                defaultValue="all"
+                options={optionsGenres}
+                style={{ minWidth: 180 }}
+                value={genre}
+                onChange={handleGenresChange}
+            />
             <Select
                 defaultValue="all"
                 options={optionsRatings}
@@ -164,7 +192,7 @@ function GamesPopularList() {
     }
 
     if (error) {
-        return <p>{error.message}</p>;
+        return <p className="error__message">{error.message}</p>;
     }
 
     return (
