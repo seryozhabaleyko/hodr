@@ -15,10 +15,10 @@ const fetchGamesFailure = (error) => ({
     payload: error,
 });
 
-export const fetchGames = () => async (dispatch) => {
+export const fetchGames = (query) => async (dispatch) => {
     dispatch(fetchGamesRequest());
     try {
-        const response = await fetchGamesApi();
+        const response = await fetchGamesApi(query);
         dispatch(fetchGamesSuccess(response));
     } catch (error) {
         dispatch(fetchGamesFailure(error));
