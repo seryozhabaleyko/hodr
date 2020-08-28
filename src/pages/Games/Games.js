@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
-import { fetchGames } from './actions';
+import { fetchCollectionNewGames, fetchCollectionPopularGames } from './actions';
 import { getCollectionNewGames } from './selectors';
 import Genres from './components/Genres/Genres';
 import GamesCollection from './components/GamesCollection/GamesCollection';
@@ -12,16 +12,21 @@ function Games() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchGames());
+        dispatch(fetchCollectionNewGames());
+        dispatch(fetchCollectionPopularGames());
     }, [dispatch]);
 
-    const { items = [] } = useSelector(getCollectionNewGames, shallowEqual);
+    const popular = useSelector((state) => state.collections.popular);
 
-    console.log('new games', items);
+    console.log(popular);
 
     return (
         <div className="container">
-            <GamesCollection title="Популярные игры" linkToFullCollection="/games/popular" />
+            <GamesCollection
+                title="Популярные игры"
+                linkToFullCollection="/games/popular"
+                {...popular}
+            />
 
             <Genres />
 
