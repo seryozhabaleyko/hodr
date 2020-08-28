@@ -40,7 +40,7 @@ export const getPopularGames = createSelector(
     (loading, items, error) => ({ loading, items, error }),
 );
 
-export const getCollectionNewGames = createSelector(
+/* export const getCollectionNewGames = createSelector(
     gamesLoadingSelector,
     sortByDateGamesItems,
     gamesErrorSelectorSelector,
@@ -49,7 +49,7 @@ export const getCollectionNewGames = createSelector(
         items: items.slice(0, 15),
         error,
     }),
-);
+); */
 
 export const getPlatforms = createSelector(
     (state) => state.games.platforms.loading,
@@ -122,4 +122,8 @@ export const getGames = createSelector(
     getFilteredGames,
     gamesErrorSelectorSelector,
     (loading, items, error) => ({ loading, items, error }),
+);
+
+export const getCollectionNewGames = createSelector(gamesItemsSelector, (items) =>
+    items.sort((a, b) => b.createdAt - a.createdAt),
 );
