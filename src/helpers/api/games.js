@@ -1,5 +1,7 @@
 import { firestore } from '../../services/firebase';
 
+const gamesRef = firestore.collection('games');
+
 export function addNewGameApi(data) {
     return firestore
         .collection('games')
@@ -10,7 +12,6 @@ export function addNewGameApi(data) {
 }
 
 export function fetchGamesApi({ platform, genre }) {
-    const gamesRef = firestore.collection('games');
     let query = gamesRef;
 
     if (platform) {
@@ -35,4 +36,20 @@ export function fetchGameApi(slug) {
         .where('slug', '==', slug)
         .get()
         .then((doc) => ({ ...doc.docs[0].data(), id: doc.docs[0].id }));
+}
+
+export function fetchCollectionNewGamesApi() {
+    return gamesRef
+        .orderBy('releaseDate', 'desc')
+        .limit(21)
+        .get()
+        .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+}
+
+export function fetchCollectionPopularGamesApi() {
+    return gamesRef
+        .orderBy('rating', 'desc')
+        .limit(21)
+        .get()
+        .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 }
