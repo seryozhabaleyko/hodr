@@ -1,0 +1,33 @@
+.collection {
+    position: relative;
+    padding: 24px 0;
+
+    &__heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 30px 0;
+    }
+
+    &__title {
+        margin: 0;
+
+        font-size: 24px;
+        line-height: 28px;
+        font-weight: 900;
+    }
+
+    &__link-to-full-collection {
+        display: block;
+        opacity: 0;
+        transition: opacity 80ms;
+    }
+
+    &:hover {
+        .collection {
+            &__link-to-full-collection {
+                opacity: 1;
+            }
+        }
+    }
+}
