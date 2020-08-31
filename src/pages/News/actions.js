@@ -29,7 +29,6 @@ export const fetchNews = () => async (dispatch) => {
     dispatch(fetchNewsRequest());
     try {
         const response = await fetchNewsApi();
-
         dispatch(fetchNewsSuccess(response));
     } catch (error) {
         dispatch(fetchNewsFailure(error));
