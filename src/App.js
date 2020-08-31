@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import routes from './routes';
 import RouteWithSubRoutes from './components/RouteWithSubRoutes';
@@ -16,7 +16,6 @@ import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Games, { GamesCreatePage } from './pages/Games';
-import GamesPopular from './pages/Games/GamesPopular';
 import Game from './pages/Game';
 import News, { NewsCreate } from './pages/News';
 import Articles from './pages/Articles';
@@ -54,9 +53,13 @@ function App() {
                         <PublicRoute path="/signup" component={SignUp} />
                         <PublicRoute path="/login" component={Login} />
 
-                        <Route path="/games" component={Games} exact />
+                        <Route path="/games" exact>
+                            <Redirect to="/games/popular" />
+                        </Route>
+                        <Route path="/games/:something" exact>
+                            <Games />
+                        </Route>
                         <Route path="/games/create" component={GamesCreatePage} exact />
-                        <Route path="/games/popular" component={GamesPopular} exact />
 
                         <Route path="/game/:slug" component={Game} />
 
