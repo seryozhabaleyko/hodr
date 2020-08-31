@@ -1,48 +1,63 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useParams, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Button } from 'antd';
+import { FilterOutlined } from '@ant-design/icons';
 
-import { fetchCollectionNewGames, fetchCollectionPopularGames } from './actions';
-import { getCollectionNewGames } from './selectors';
-import Genres from './components/Genres/Genres';
-import GamesCollection from './components/GamesCollection/GamesCollection';
+import { fetchGames, setFilterByRating, setFilterByYear } from './actions';
+import useQuery from '../../hooks/useQuery';
+import FilterPanel from './components/FilterPanel';
+import GamesList from './components/GamesList';
 
 import './Games.scss';
 
-function Games() {
+function GamesPage() {
     const dispatch = useDispatch();
+    const { something } = useParams();
+    const query = useQuery();
+    const genre = query.get('genre');
+    const platform = query.get('platform');
 
     useEffect(() => {
-        dispatch(fetchCollectionNewGames());
-        dispatch(fetchCollectionPopularGames());
-    }, [dispatch]);
+        dispatch(fetchGames({ orderBy: something, platform, genre }));
+    }, [dispatch, something, platform, genre]);
 
-    const popular = useSelector((state) => state.collections.popular);
+    useEffect(() => {
+        document.title = 'Популярные игры - Hodr - компьютерные игры';
 
-    console.log(popular);
+        const ratings = query.get('ratings');
+        const years = query.get('years');
+
+        if (ratings) {
+            dispatch(setFilterByRating(ratings));
+        }
+
+        if (years) {
+            dispatch(setFilterByYear(years));
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (something !== 'popular' && something !== 'new') {
+        return <Redirect to="/games/popular" />;
+    }
 
     return (
         <div className="container">
-            <GamesCollection
-                title="Популярные игры"
-                linkToFullCollection="/games/popular"
-                {...popular}
-            />
+            <header className="games-page-popular__heading">
+                <h1 className="games-page-popular__title">
+                    {something === 'popular' && 'Популярные игры'}
+                    {something === 'new' && 'Новые игры'}
+                </h1>
+                <Button icon={<FilterOutlined />}>Фильтры</Button>
+            </header>
 
-            <Genres />
+            <FilterPanel />
 
-            <GamesCollection title="Новые игры" linkToFullCollection="/games/new" />
-
-            <GamesCollection
-                title="Лучшие игры про зомби"
-                linkToFullCollection="/games/collection/best-zombie"
-            />
-
-            <GamesCollection
-                title="Лучшие военные игры"
-                linkToFullCollection="/games/collection/best-military"
-            />
+            <GamesList />
         </div>
     );
 }
 
-export default Games;
+export default GamesPage;
