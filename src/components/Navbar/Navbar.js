@@ -8,7 +8,7 @@ import UserAccount from '../UserAccount/UserAccount';
 
 const menuList = [
     { label: 'Главная', to: '/', exact: true },
-    { label: 'Игры', to: '/games', exact: false },
+    { label: 'Игры', to: '/games/popular', exact: false },
     { label: 'Новости', to: '/news', exact: false },
     { label: 'Статьи', to: '/articles', exact: false },
     { label: 'Рецензии', to: '/reviews', exact: false },
