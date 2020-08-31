@@ -11,7 +11,7 @@ export function addNewGameApi(data) {
         });
 }
 
-export function fetchGamesApi({ platform, genre }) {
+export function fetchGamesApi({ orderBy, platform, genre }) {
     let query = gamesRef;
 
     if (platform) {
@@ -24,8 +24,17 @@ export function fetchGamesApi({ platform, genre }) {
             .where('genres', 'array-contains', genre);
     }
 
-    return query
-        .orderBy('releaseDate', 'desc')
+    let foo;
+
+    if (orderBy === 'new') {
+        foo = query.orderBy('releaseDate', 'desc');
+    } else {
+        foo = query.orderBy('rating', 'desc');
+    }
+
+    console.log('api:', orderBy);
+
+    return foo
         .get()
         .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 }
