@@ -113,6 +113,11 @@ function Home() {
                 </Collection>
 
                 <GamesCollection title="Новые игры" linkToFullCollection="/games/new" />
+
+                <GamesCollection
+                    title="Лучшие игры про зомби"
+                    linkToFullCollection="/games/collection/best-zombie"
+                />
             </div>
         </>
     );
