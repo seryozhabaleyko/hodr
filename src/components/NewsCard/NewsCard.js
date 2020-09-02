@@ -23,9 +23,7 @@ function NewsCard({
                         placement="start"
                         text={category.label}
                     />
-                    <picture>
-                        <img src={photoUrl} alt={title} />
-                    </picture>
+                    <img src={photoUrl} alt={title} />
                 </figure>
                 <div className="news-card__content">
                     <h3 className="news-card__title">{title}</h3>
